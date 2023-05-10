@@ -1,16 +1,15 @@
 
-DUNE Computing Training May 2022 edition
+DUNE Computing Training May 2023 edition
 ========================================
 
-This repository holds the source code of the webpage that is rendered [here](https://dune.github.io/computing-training-basics/). 
+This repository holds the source code of the webpage that is rendered [here](https://dune.github.io/computing-basics/). 
 
 This training module is part of an initiative of the [DUNE Computing Consortium](https://dunescience.org/).
 
-This edition of the computing training extends from the [January 2021 training](https://wiki.dunescience.org/wiki/DUNE_Computing_Tutorial_January_2021).
 
 When:
 
-2022 May 13-14, from 8:00 AM - 3:00 PM CST
+2023 May 24-25, from 2:30 PM - 6:00 PM CST
 
 What:
 
@@ -21,7 +20,7 @@ New! There will be quizzes and special sessions “expert in the room” to answ
 
 How to attend?
 
-Participants must have a valid FNAL or CERN account. The Indico site is [https://indico.fnal.gov/event/54191/][indico-event]
+Participants must have a valid FNAL or CERN account. The Indico site is [https://indico.fnal.gov/event/59762/[indico-event]
 
 Apply immediately if you do not yet have accounts at either lab (info).
 
@@ -53,5 +52,5 @@ The lesson framework utilizes the the [Software Carpentry's styles template][car
 
 To cite this lesson, please consult with [CITATION](CITATION)
 
-[indico-event]: https://indico.fnal.gov/event/54191/
+[indico-event]: https://indico.fnal.gov/event/59762/
 [carpentry-source]: https://github.com/carpentries/lesson-example
