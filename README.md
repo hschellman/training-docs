@@ -20,7 +20,7 @@ New! There will be quizzes and special sessions “expert in the room” to answ
 
 How to attend?
 
-Participants must have a valid FNAL or CERN account. The Indico site is [https://indico.fnal.gov/event/59762/[indico-event]
+Participants must have a valid FNAL or CERN account. The Indico site is [https://indico.fnal.gov/event/59762/][indico-event]
 
 Apply immediately if you do not yet have accounts at either lab (info).
 
@@ -32,9 +32,7 @@ New slack channel: #computing_training_basics
 
 ## Contributing
 
-1. If you find a problem or have a suggestion but don't know how to (or don't have the time to) solve it yourself, [file an issue in this repository](https://github.com/DUNE/computing-training/issues)
-2. If you want to contribute, please fork this repository and submit a pull request.
-
+Report [file an issue in this repository](https://github.com/DUNE/computing-training/issues)
 
 ## Maintainer(s)
 
