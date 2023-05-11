@@ -1,6 +1,6 @@
 ---
 title: Workshop Welcome and Introduction 
-teaching: 15
+teaching: 10
 exercises: 0
 questions:
 - What should I expect in participating in this workshop?
@@ -20,14 +20,15 @@ Coordinator: Heidi Schellman (Oregon State University)
 
 ## Welcome Session Video
 
-
 <!--The session will be captured on video a placed here after the workshop for asynchronous study.-->
-The session was captured for your asynchronous review.
+A similar session from May 2022 was captured for your asynchronous review.
 
 
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/B1mr3v1i7M8" title="DUNE Computing Tutorial May 2022 Introduction" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
+
+The May 2023 session will be captured on video a placed here after the workshop for asynchronous study.
 
 ## Tutorial Instructors
 
@@ -49,17 +50,17 @@ The session was captured for your asynchronous review.
 
 This incarnation of the computing training spans two days. 
 
-The official schedule for this training is on the [Indico site](https://indico.fnal.gov/event/54191/timetable/#20220512).
+The official schedule for this training is on the [Indico site](https://indico.fnal.gov/event/59762/timetable/#20230524).
 
 ## Support
 
 There will be live documents linked from [Indico][indico-event-link] for each [Zoom][zoom-link] session. You can write questions there, anonymously or not, and experts will reply. The chat on Zoom can quickly saturate so this is a more convenient solution and proved very successful at the previous training. We will collect all questions and release a Q&A after the event.
 
-You can join DUNE's Slack: `dunescience.slack.com`. We created a special channel `computing_training_may2022` for technical support, join [here][slack-join-link].
+You can join DUNE's Slack: `dunescience.slack.com`. We created a special channel `computing_training_basics` for technical support, join [here][slack-join-link].
 
 
-[indico-event-link]: https://indico.fnal.gov/event/54191/
-[slack-join-link]: https://dunescience.slack.com/archives/C03CMH6TUCS
+[indico-event-link]: https://indico.fnal.gov/event/59762/
+[slack-join-link]: https://dunescience.slack.com/
 [zoom-link]: https://fnal.zoom.us/
 
 
