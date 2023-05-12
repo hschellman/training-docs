@@ -61,6 +61,7 @@ You will need to be a DUNE Collaborator (listed member), and have a valid FNAL o
 
 <h2 id="schedule">Schedule by Day</h2>
 
+The official schedule for this event is listed on the [Indico site (59762)](https://indico.fnal.gov/event/59762/timetable/#20230524).
 
 {% include sc/schedule.html %}
 
