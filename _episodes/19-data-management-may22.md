@@ -1,6 +1,6 @@
 ---
 title: Data Management
-teaching: 40
+teaching: 60
 exercises: 0
 questions:
 - What are the data management tools and software for DUNE? 
@@ -20,27 +20,13 @@ keypoints:
 
 ## Session Video
 
-The session will be captured on video a placed here after the workshop for asynchronous study.
+<!--The session will be captured on video a placed here after the workshop for asynchronous study.-->
+The session was captured for your asynchronous review.
 
-<!-- The session was captured for your asynchronous review.
-The session was video captured for your asynchronous review. The video from the full two day training in May 2022 is provided here as a reference.
+
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Nz5goj93eq0" title="DUNE Computing Tutorial May 2022 Data Management" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
--->
-
-## Live Notes
-
-[Livedoc from Jan. 2023](https://docs.google.com/document/d/1sgRQPQn1OCMEUHAk28bTPhZoySdT5NUSDnW07aL-iQU/edit)
-
-
-[Livedoc from Dec. 2021](https://docs.google.com/document/d/12CjFzfyZ-cbrI0AaD-cwgGcrfW14QKCPaiMfKnQyDC8/edit#heading=h.gbjqf5tvtt25)
-
-Temporary Note: The May 2023 version of the DUNE Software and Computing training was imported from the May 2022 version because it was a two day event, similar to this one, see [03-data-management.md (May 2022)](https://github.com/DUNE/computing-training-basics/blob/gh-pages/_episodes/03-data-management.md) for reference.
-
-This lesson (03-data-management.md) was imported from the [Jan. 2023 lesson](https://github.com/DUNE/computing-training-basics-short/tree/gh-pages/_episodes) which was a shortened version of the training.
-
-Quiz blocks are added in this lesson and should be administered in the closing minutes of this lesson. Feel free to modify or add quiz questions. Some of these quiz questions might be more appropriate for 02-storage-spaces.md
 
 ## Introduction
 
@@ -292,117 +278,6 @@ More information on CVMFS is available [here](https://wiki.dunescience.org/wiki/
 > * What do you see--do you see the four subdirectories (dune.opensciencegrid.org, larsoft.opensciencegrid.org, fermilab.opensciencegrid.org, and dune.osgstorage.org)
 > * cd dune.osgstorage.org/pnfs/fnal.gov/usr/dune/persistent/stash/PhotonPropagation/LibraryData
 {: .challenge}
-
-
-## Quiz
-
-> ## Question 01
->
-> Which volumes are directly accessible (POSIX) from grid worker nodes?
-> <ol type="A">
-> <li>/dune/data</li>
-> <li>DUNE CVMFS repository</li>
-> <li>/pnfs/dune/scratch</li>
-> <li>/pnfs/dune/persistent</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is B - DUNE CVMFS repository.
-> > {: .output}
-> > Comment here 
-> {: .solution}
-{: .challenge}
-
-> ## Question 02
->
-> Which data volume is the best location for the output of an analysis-user grid job?
-> <ol type="A">
-> <li>dCache scratch (/pnfs/dune/scratch/users/${USER}/)</li>
-> <li>dCache persistent (/pnfs/dune/persistent/users/${USER}/)</li>
-> <li>Enstore tape (/pnfs/dune/tape_backed/users/${USER}/)</li>
-> <li>user’s home area (`~${USER}`)</li>
-> <li>NFS data volume (/dune/data or /dune/app)</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is A, dCache scratch (/pnfs/dune/scratch/users/${USER}/).
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 03
->
-> You have written a shell script that sets up your environment for both DUNE and another FNAL experiment. What (missing text)?
-> <ol type="A">
-> <li>DUNE CVMFS repository</li>
-> <li>/pnfs/dune/scratch/</li>
-> <li>/dune/app/</li>
-> <li>Your GPVM home area</li>
-> <li>Your laptop home area</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is D - Your GPVM home area.
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 04
->
-> What is the preferred way of reading a file interactively?
-> <ol type="A">
-> <li>Read it across the nfs mount on the GPVM</li>
-> <li>Download the whole file to /tmp with xrdcp</li>
-> <li>Open it for streaming via xrootd</li>
-> <li>None of the above</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is C - Open it for streaming via xrootd.
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 05
->
-> What is file metadata?
-> <ol type="A">
-> <li>Information about how and when a file was made</li>
-> <li>Information about what type of data the file contains</li>
-> <li>Conditions such as liquid argon temperature while the file was being written</li>
-> <li>Both A and B</li>
-> <li>All of the above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is D - Both A and B.
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 06
->
-> How do we determine a DUNE data file location?
-> <ol type="A">
-> <li>Do ls -R on /pnfs/dune and grep</li>
-> <li>Use samweb locate-file (file name)</li>
-> <li>Ask the data management group</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is B - use samweb locate-file (file name).
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
 
 ## Useful links to bookmark
 * Official dataset definitions: [dune-data.fnal.gov](https://dune-data.fnal.gov)
