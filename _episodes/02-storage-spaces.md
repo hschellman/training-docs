@@ -1,6 +1,6 @@
 ---
 title: Storage Spaces
-teaching: 30
+teaching: 50
 exercises: 0
 questions:
 - What are the types and roles of DUNE's data volumes? 
