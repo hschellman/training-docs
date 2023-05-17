@@ -1,6 +1,6 @@
 ---
 title: Introduction to art and LArSoft
-teaching: 30
+teaching: 90
 exercises: 0
 questions:
 - Why do we need a complicated software framework? Can't I just write standalone code?
@@ -13,31 +13,14 @@ keypoints:
 - LArSoft is a set of simulation and reconstruction tools shared among the liquid-argon TPC collaborations.
 ---
 
-#### Session Video
+## Session Video
 
-This session will be captured on video a placed here after the workshop for asynchronous study.
-<!-- The session was video captured for your asynchronous review. -->
-The video from the full two day training in May 2022 is provided [here](https://www.youtube.com/embed/a2QXS2hCT-I) as a reference.
+<!--The session will be captured on video a placed here after the workshop for asynchronous study.-->
+The session was captured for your asynchronous review.
 
-<!--
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/a2QXS2hCT-I" title="DUNE Computing Tutorial May 2022 Introduction to art and LArSoft" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
--->
-
-#### Live Notes
-
-Participants are encouraged to monitor and utilize the [Livedoc for May. 2023](https://docs.google.com/document/d/19XMQqQ0YV2AtR5OdJJkXoDkuRLWv30BnHY9C5N92uYs/edit?usp=sharing) to ask questions and learn.  For reference, the [Livedoc from Jan. 2023](https://docs.google.com/document/d/1sgRQPQn1OCMEUHAk28bTPhZoySdT5NUSDnW07aL-iQU/edit?usp=sharing) is provided.
-
-#### Temporary Instructor Note: 
-
-The May 2023 version of the DUNE Software and Computing training was imported from the May 2022 version because it was a two day event, similar to this one, see [04-intro-art-larsoft.md (May 2022)](https://github.com/DUNE/computing-training-basics/blob/gh-pages/_episodes/04-intro-art-larsoft.md) for reference.
-
-This lesson (06-intro-art-larsoft.md) was imported from the [Jan. 2023 lesson](https://github.com/DUNE/computing-training-basics-short/blob/gh-pages/_episodes/04-intro-art-larsoft.md) which was a one half day version of the training.
-
-This lesson includes collapsable quiz blocks which are encouraged, a blank quiz question block included at the end of the page.
-
-The official timetable for this training event is on the [Indico site](https://indico.fnal.gov/event/59762/timetable/#20230524).
 
 ## Introduction to *art*
 
@@ -67,7 +50,7 @@ The configuration storage is particularly useful if you receive a data file from
 Log in to a `dunegpvm*.fnal.gov` machine and set up your environment (This script is defined in Exercise 5 of https://dune.github.io/computing-training-basics/setup.html)
 
 ```bash
-source ~/dune_presetup_202301.sh
+source ~/dune_presetup_202205.sh
 dune_setup
 setup dunesw $DUNESW_VERSION -q e20:prof
 setup_fnal_security
@@ -77,7 +60,7 @@ setup_fnal_security
 The examples below will refer to files in `dCache` at Fermilab which can best be accessed via `xrootd`. 
 
 **For those with no access to Fermilab computing resources but with a CERN account:**  
-Copies are stored in `/afs/cern.ch/work/t/tjunk/public/jan2023tutorialfiles/`.
+Copies are stored in `/afs/cern.ch/work/t/tjunk/public/may2022tutorialfiles/`.
 
 The follow-up of this tutorial provides help on how to find data and MC files in storage.
 
@@ -87,7 +70,7 @@ You can list available versions of `dunesw` installed in `CVMFS` with this comma
 ups list -aK+ dunesw
 ```
 
-The output is not sorted, although portions of it may look sorted. Do not depend on it being sorted. The string indicating the version is called the version tag (v09_65_01d00 here). The qualifiers are e20 and prof. Qualifiers can be entered in any order and are separated by colons.  "e20" corresponds to a specific version of the GNU compiler -- v9.3.0.   We also compile with `clang` -- the compiler qualifier for that is "c7".
+The output is not sorted, although portions of it may look sorted. Do not depend on it being sorted. The string indicating the version is called the version tag (v09_48_01d00 here). The qualifiers are e20 and prof. Qualifiers can be entered in any order and are separated by colons.  "e20" corresponds to a specific version of the GNU compiler -- v9.3.0.   We also compile with `clang` -- the compiler qualifier for that is "c7".
 
 "prof" means "compiled with optimizations turned on." "debug" means "compiled with optimizations turned off". More information on qualifiers is [here][about-qualifiers].
 
@@ -297,7 +280,6 @@ Analyzer modules read data products from the event memory and produce histograms
 
 **Source Modules**  
 Source modules read data from input files and reformat it as need be, in order to put the data in *art* event data store. Most jobs use the art-provided RootInput source module which reads in art-formatted ROOT files. RootInput interacts well with the rest of the framework in that it provides lazy reading of TTree branches.  When using the RootInput source, data are not actually fetched from the file into memory when the source executes, but only when GetHandle or GetValidHandle or other product get methods are called. This is useful for *art* jobs that only read a subset of the TBranches in an input file. Code for sources must be in files of the form: `modulename_source.cc`, where `modulename` does not have any underscores in it.
-Monte Carlo generator jobs use the input source called EmptyEvent.
 
 **Services**  
 These are singleton classes that are globally visible within an *art* job. They can be FHiCL configured like modules, and they can schedule methods to be called on begin job, begin run, begin event, etc. They are meant to help supply configuration parameters like the drift velocity, or more complicated things like geometry functions, to modules that need them. Please do not use services as a back door for storing event data outside of the *art* event store. Source code must be in files of the form: `servicename_service.cc`, where servicename does not have any underscores in it.
@@ -312,17 +294,6 @@ cetskelgen --help
 ``` 
 
 for instructions on how to invoke it.
-
-### Ordering of Plug-in Execution
-
-The constructors for each plug-in are called at job-start time, after the shared object libraries are loaded by the image activater after their names have been discovered from the fcl configuration.  Producer, analyzer and service plug-ins have BeginJob, BeginRun, BeginSubRun, EndSubRun, EndRun, EndJob methods where they can do things like book histograms, write out summary information, or clean up memory.
-
-When processing data, the input source always gets executed first, and it defines the run, subrun and event number of the trigger record being processed.
-The producers and filters in trigger_paths then get executed for each event.  The analyzers and filters in end_paths then get executed.  Analyzers cannot be added to trigger_paths, and producers cannot be added to end_paths.  This ordering ensures that data products are all produced by the time they are needed to be analyzed.  But it also forces high memory usage for the same reason.
-
-Services and tools are visible to other plug-ins at any stage of processing.  They are loaded dynamically from names in the fcl configurations, so a common error is to use in code a service that hasn't been mentioned in the job configuration.  You will get an error asking you to configure the service, even if it is just an empty configuration with the service name and no parameters set.
-
-
 
 ### Non-Plug-In Code
 
@@ -367,7 +338,7 @@ The LArSoft wiki is here: [larsoft-wiki](https://larsoft.github.io/LArSoftWiki/)
 
 The LArSoft toolkit is a set of software components that simulate and reconstruct LArTPC data, and also it provides tools for accessing raw data from the experiments. LArSoft contains an interface to GEANT4 (art does not list GEANT4 as a dependency) and the GENIE generator. It contains geometry tools that are adapted for wire-based LArTPC detectors.
 
-A recent graph of the UPS products in a full stack starting with dunesw is available [here](https://wiki.dunescience.org/w/img_auth.php/8/85/Dunesw_v09_65_01_e20_prof_graph.pdf) (dunesw). You can see the LArSoft pieces under dunesw, as well as GEANT4, GENIE, ROOT, and a few others.
+A recent graph of the UPS products in a full stack staring with dunesw is available [here](https://wiki.dunescience.org/w/img_auth.php/f/f0/Dunesw_v09_48_01d00_e20_prof_graph.pdf) (dunesw). You can see the LArSoft pieces under dunesw, as well as GEANT4, GENIE, ROOT, and a few others.
 
 ### LArSoft Data Products
 
@@ -417,7 +388,7 @@ export USER=`whoami`
  mkdir -p /dune/data/users/$USER/tutorialtest
  cd /dune/data/users/$USER/tutorialtest
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
- setup dunesw v09_65_01d00 -q e20:prof
+ setup dunesw v09_48_01d00 -q e20:prof
  lar -n 1 -c mcc12_gen_protoDune_beam_cosmics_p1GeV.fcl -o gen.root
  lar -n 1 -c protoDUNE_refactored_g4_stage1.fcl gen.root -o g4_stage1.root
  lar -n 1 -c protoDUNE_refactored_g4_stage2_sce_datadriven.fcl g4_stage1.root -o g4_stage2.root
@@ -437,13 +408,13 @@ This example puts all files in a subdirectory of your home directory. There is a
 
 ```bash 
  cd ~
- mkdir Jan2023Tutorial
- cd Jan2023Tutorial
+ mkdir May2022Tutorial
+ cd May2022Tutorial
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
- setup dunesw v09_65_01d00 -q e20:prof
+ setup dunesw v09_48_01d00 -q e20:prof
  cat > tmpgen.fcl << EOF
  #include "mcc12_gen_protoDune_beam_cosmics_p1GeV.fcl"
- physics.producers.generator.FileName: "/afs/cern.ch/work/t/tjunk/public/jan2023tutorialfiles/H4_v34b_1GeV_-27.7_10M_1.root"
+ physics.producers.generator.FileName: "/afs/cern.ch/work/t/tjunk/public/may2022tutorialfiles/H4_v34b_1GeV_-27.7_10M_1.root"
  EOF
  lar -n 1 -c tmpgen.fcl -o gen.root
  lar -n 1 -c protoDUNE_refactored_g4_stage1.fcl gen.root -o g4_stage1.root
@@ -477,9 +448,9 @@ The follow-up part of this tutorial gives hands-on exercises for doing these thi
 
 ### Contributing to LArSoft
 
-The LArSoft git repositories are hosted on GitHub and use a pull-request model. LArSoft's github link is [https://github.com/larsoft][github-link].  DUNE repositories, such as the dunesw stack, protoduneana and garsoft are also on GitHub but at the moment (not for long however), allow users to push code. 
+Unlike dunesw, protoduneana and garsoft, which are hosted in Fermilab's Redmine repository, the LArSoft git repositories are hosted on GitHub and use a pull-request model. LArSoft's github link is [https://github.com/larsoft][github-link]
 
-To work with pull requests, see the documentation at this link: [https://larsoft.github.io/LArSoftWiki/Developing_With_LArSoft][developing-with-larsoft]
+See the documentation at this link: [https://larsoft.github.io/LArSoftWiki/Developing_With_LArSoft][developing-with-larsoft]
 
 There are bi-weekly LArSoft coordination meetings [https://indico.fnal.gov/category/405/][larsoft-meetings] at which stakeholders, managers, and users discuss upcoming releases, plans, and new features to be added to LArSoft.
 
@@ -490,8 +461,8 @@ A good old-fashioned `grep -r` or a find command can be effective if you are loo
 ~~~
  #!/bin/bash
  USERNAME=`whoami`
- LARSOFT_VERSION=v09_65_01
- COMPILER=e20
+ LARSOFT_VERSION=v09_48_00
+ COMPILER=e19
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
  cd /dune/app/users/${USERNAME}
  rm -rf inspect
@@ -536,29 +507,8 @@ ups list -aK+ garsoft
 
 and you can check out the source and build it by following the instructions on the [GArSoft wiki](https://cdcvs.fnal.gov/redmine/projects/garsoft/wiki).
 
-
-## Quiz
-
-> ## Question 01
->
-> Enter Question here
-> <ol type="A">
-> <li>.</li>
-> <li>.</li>
-> <li>.</li>
-> <li>.</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is .
-> > {: .output}
-> > Comment here 
-> {: .solution}
-{: .challenge}
-
-
 {%include links.md%} 
+
 
 [about-qualifiers]: https://cdcvs.fnal.gov/redmine/projects/cet-is-public/wiki/AboutQualifiers
 [art-wiki]: https://cdcvs.fnal.gov/redmine/projects/art/wiki
@@ -572,6 +522,7 @@ and you can check out the source and build it by following the instructions on t
 [art-wiki-redmine]: https://cdcvs.fnal.gov/redmine/projects/art/wiki#How-to-use-the-modularity-of-art
 [art-more-documentation]: https://art.fnal.gov/gallery/][art-more-documentation
 [using-larsoft]: https://cdcvs.fnal.gov/redmine/projects/larsoft/wiki/Using_LArSoft
+[protoduneana]:https://wiki.dunescience.org/w/img_auth.php/f/fd/Protoduneana_v09_12_00_e19-prof_graph.pdf
 [larsoft-data-products]: https://indico.fnal.gov/event/19133/contributions/50492/attachments/31462/38611/dataproducts.pdf
 [dunetpc-wiki]: https://cdcvs.fnal.gov/redmine/projects/dunetpc/wiki
 [look-at-protodune]: https://wiki.dunescience.org/wiki/Look_at_ProtoDUNE_SP_data
