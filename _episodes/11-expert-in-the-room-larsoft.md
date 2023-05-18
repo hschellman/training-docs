@@ -56,7 +56,7 @@ Start up session #1, editing code, on one of the dunegpvm*.fnal.gov
 interactive nodes.  These scripts have also been tested on the
 lxplus.cern.ch interactive nodes. Create two scripts in your home directory:
 
-`newDevMay2022Tutorial.sh` should have these contents:
+`newDevMay2023Tutorial.sh` should have these contents:
 
 ~~~
 #!/bin/bash
@@ -234,7 +234,7 @@ Now run the program with the input file accessed by that URL:
 lar -c analyzer_job.fcl root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
 ~~~
 
-CERN Users without access to Fermilab's `dCache`: -- example input files for this tutorial have been copied to `/afs/cern.ch/work/t/tjunk/public/may2022tutorialfiles/`.
+CERN Users without access to Fermilab's `dCache`: -- example input files for this tutorial have been copied to `/afs/cern.ch/work/t/tjunk/public/may2023tutorialfiles/`.
 
 After running the program, you should have an output file `tutorial_hist.root`.  Note -- please do not
 store large rootfiles in `/dune/app`!  The disk is rather small, and we'd like to
