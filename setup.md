@@ -81,11 +81,13 @@ Typical output of klist on macOS looks like this:
 
 ~~~
 Mac-124243:~ trj$ klist
-Credentials cache: API:6A0A9594-540A-45DC-8D2C-47FF774F4E4C
-        Principal: trj@FNAL.GOV
+Ticket cache: FILE:/tmp/krb5cc_10143_xSCwboGiuY
+Default principal: trj@FNAL.GOV
 
-  Issued                Expires               Principal
-Apr 19 15:02:41 2022  Apr 20 16:52:20 2022  krbtgt/FNAL.GOV@FNAL.GOV
+Valid starting     Expires            Service principal
+05/18/23 12:43:23  05/19/23 11:41:42  krbtgt/FNAL.GOV@FNAL.GOV
+	renew until 05/25/23 12:41:42
+05/18/23 15:13:22  05/19/23 11:41:42  nfs/homesrv01.fnal.gov@FNAL.GOV
 ~~~
 {: .output}
 
@@ -249,15 +251,15 @@ Setting up DUNE UPS area... /cvmfs/dune.opensciencegrid.org/products/dune/
 ## 5. Exercise! (it's easy)
 This exercise will help organizers see if you reached this step or need help.
 
-1) Start in your home area `cd ~` on the DUNE machine (normally CERN or FNAL) and create the file ```dune_presetup_202205.sh```.  Write in it the following:
+1) Start in your home area `cd ~` on the DUNE machine (normally CERN or FNAL) and create the file ```dune_presetup_202305.sh```.  Write in it the following:
 ~~~
-export DUNESW_VERSION=v09_48_01d00
+export DUNESW_VERSION=v09_72_01d00
 alias dune_setup='source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh'
 ~~~
 {: .source}
 When you start the training, you will have to source this file:
 ~~~
-source ~/dune_presetup_202205.sh
+source ~/dune_presetup_202305.sh
 ~~~
 {: .language-bash}
 Then, to setup DUNE, use the created alias:
