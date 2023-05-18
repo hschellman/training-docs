@@ -357,7 +357,7 @@ Setting up DUNE UPS area... /cvmfs/dune.opensciencegrid.org/products/dune/
 ### 2. Access tutorial datasets
 Normally, the datasets are accessible through the grid resource. But with your CERN account, you may not be part of the DUNE VO yet (more on this during the tutorial). We found a workaround: some datasets have been copied locally for you. You can check them here:
 ~~~
-ls /afs/cern.ch/work/t/tjunk/public/may2022tutorialfiles/
+ls /afs/cern.ch/work/t/tjunk/public/may2023tutorialfiles/
 ~~~
 {: .language-bash}
 ~~~
