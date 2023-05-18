@@ -67,7 +67,7 @@ The configuration storage is particularly useful if you receive a data file from
 Log in to a `dunegpvm*.fnal.gov` machine and set up your environment (This script is defined in Exercise 5 of https://dune.github.io/computing-training-basics/setup.html)
 
 ```bash
-source ~/dune_presetup_202301.sh
+source ~/dune_presetup_202305.sh
 dune_setup
 setup dunesw $DUNESW_VERSION -q e20:prof
 setup_fnal_security
@@ -87,7 +87,7 @@ You can list available versions of `dunesw` installed in `CVMFS` with this comma
 ups list -aK+ dunesw
 ```
 
-The output is not sorted, although portions of it may look sorted. Do not depend on it being sorted. The string indicating the version is called the version tag (v09_65_01d00 here). The qualifiers are e20 and prof. Qualifiers can be entered in any order and are separated by colons.  "e20" corresponds to a specific version of the GNU compiler -- v9.3.0.   We also compile with `clang` -- the compiler qualifier for that is "c7".
+The output is not sorted, although portions of it may look sorted. Do not depend on it being sorted. The string indicating the version is called the version tag (v09_72_01d00 here). The qualifiers are e20 and prof. Qualifiers can be entered in any order and are separated by colons.  "e20" corresponds to a specific version of the GNU compiler -- v9.3.0.   We also compile with `clang` -- the compiler qualifier for that is "c7".
 
 "prof" means "compiled with optimizations turned on." "debug" means "compiled with optimizations turned off". More information on qualifiers is [here][about-qualifiers].
 
@@ -135,14 +135,14 @@ config_dumper -P <artrootfile>
 
 Try it out:
 ```bash
-config_dumper -P root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
+config_dumper -P root://fndca1.fnal.gov/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
 ```
 
 The output is an executable `fcl` file, sent to stdout. We recommend redirecting the output to a file that you can look at in a text editor:
 
 Try it out:
 ```bash
-config_dumper -P root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root > tmp.fcl
+config_dumper -P root://fndca1.fnal.gov/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root > tmp.fcl
 ```
 
 Your shell may be configured with `noclobber`, meaning that if you already have a file called `tmp.fcl`, the shell will refuse to overwrite it. Just `rm tmp.fcl` and try again.
@@ -177,7 +177,7 @@ See the section below on `FCL` files for more information on what you're looking
 
 Try it out:
 ```bash
-count_events root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
+count_events root://fndca1.fnal.gov/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
 ```
 
 #### product_sizes_dumper
@@ -186,7 +186,7 @@ You can get a peek at what's inside an *art*ROOT file with `product_sizes_dumper
 
 Try it out:
 ```bash
-product_sizes_dumper -f 0 root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
+product_sizes_dumper -f 0 root://fndca1.fnal.gov/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
 ```
 
 It is also useful to redirect the output of this command to a file so you can look at it with a text editor and search for items of interest. This command lists the sizes of the `TBranches` in the `Events TTree` in the *art*ROOT file. There is one `TBranch` per data product, and the name of the `TBranch` is the data product name, an "s" is appended (even if the plural of the data product name doesn't make sense with just an "s" on the end), an underscore, then the module label that made the data product, an underscore, the instance name, an underscore, and the process name and a period.
@@ -207,7 +207,7 @@ You can open up an *art*ROOT file with `ROOT` and browse the `TTrees` in it with
 
 Try it out
 ```bash
-root root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
+root root://fndca1.fnal.gov/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
 ```
 then at the `root` prompt, type:
 ```bash
@@ -367,7 +367,7 @@ The LArSoft wiki is here: [larsoft-wiki](https://larsoft.github.io/LArSoftWiki/)
 
 The LArSoft toolkit is a set of software components that simulate and reconstruct LArTPC data, and also it provides tools for accessing raw data from the experiments. LArSoft contains an interface to GEANT4 (art does not list GEANT4 as a dependency) and the GENIE generator. It contains geometry tools that are adapted for wire-based LArTPC detectors.
 
-A recent graph of the UPS products in a full stack starting with dunesw is available [here](https://wiki.dunescience.org/w/img_auth.php/8/85/Dunesw_v09_65_01_e20_prof_graph.pdf) (dunesw). You can see the LArSoft pieces under dunesw, as well as GEANT4, GENIE, ROOT, and a few others.
+A recent graph of the UPS products in a full stack starting with dunesw is available [here](https://wiki.dunescience.org/w/img_auth.php/6/6f/Dunesw_v09_72_01_e20_prof_graph.pdf) (dunesw). You can see the LArSoft pieces under dunesw, as well as GEANT4, GENIE, ROOT, and a few others.
 
 ### LArSoft Data Products
 
@@ -398,7 +398,7 @@ Some of these may require some configuration of input module labels so they can 
 Some of these may require some configuration of input module labels so they can find the data products of interest. Try one of these yourself:
 
 ```bash 
-lar -n 1 -c dump_mctruth.fcl root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
+lar -n 1 -c dump_mctruth.fcl root://fndca1.fnal.gov/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4/40/57/23/91/PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121T214555Z.root
 ``` 
 
 This command will make a file called `DumpMCTruth.log` which you can open in a text editor. Reminder: `MCTruth` are particles made by the generator(s), and MCParticles are those made by GEANT4, except for those owned by the `MCTruth` data products. Due to the showering nature of LArTPCs, there are usually many more MCParticles than MCTruths.
@@ -417,7 +417,7 @@ export USER=`whoami`
  mkdir -p /dune/data/users/$USER/tutorialtest
  cd /dune/data/users/$USER/tutorialtest
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
- setup dunesw v09_65_01d00 -q e20:prof
+ setup dunesw v09_72_01d00 -q e20:prof
  lar -n 1 -c mcc12_gen_protoDune_beam_cosmics_p1GeV.fcl -o gen.root
  lar -n 1 -c protoDUNE_refactored_g4_stage1.fcl gen.root -o g4_stage1.root
  lar -n 1 -c protoDUNE_refactored_g4_stage2_sce_datadriven.fcl g4_stage1.root -o g4_stage2.root
@@ -437,13 +437,13 @@ This example puts all files in a subdirectory of your home directory. There is a
 
 ```bash 
  cd ~
- mkdir Jan2023Tutorial
- cd Jan2023Tutorial
+ mkdir May2023Tutorial
+ cd May2023Tutorial
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
- setup dunesw v09_65_01d00 -q e20:prof
+ setup dunesw v09_72_01d00 -q e20:prof
  cat > tmpgen.fcl << EOF
  #include "mcc12_gen_protoDune_beam_cosmics_p1GeV.fcl"
- physics.producers.generator.FileName: "/afs/cern.ch/work/t/tjunk/public/jan2023tutorialfiles/H4_v34b_1GeV_-27.7_10M_1.root"
+ physics.producers.generator.FileName: "/afs/cern.ch/work/t/tjunk/public/may2023tutorialfiles/H4_v34b_1GeV_-27.7_10M_1.root"
  EOF
  lar -n 1 -c tmpgen.fcl -o gen.root
  lar -n 1 -c protoDUNE_refactored_g4_stage1.fcl gen.root -o g4_stage1.root
@@ -490,7 +490,7 @@ A good old-fashioned `grep -r` or a find command can be effective if you are loo
 ~~~
  #!/bin/bash
  USERNAME=`whoami`
- LARSOFT_VERSION=v09_65_01
+ LARSOFT_VERSION=v09_72_01
  COMPILER=e20
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
  cd /dune/app/users/${USERNAME}
