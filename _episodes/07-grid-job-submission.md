@@ -43,23 +43,28 @@ Quiz blocks are added at the bottom of this page, and invite your review, modify
 
 The official timetable for this training event is on the [Indico site](https://indico.fnal.gov/event/59762/timetable/#20230524).
 
+## Notes on changes in the May 2023 version
+
+The past few months have seen significant changes in how DUNE (as well as other FNAL experiments) submits jobs and interacts with storage elements. While every effort was made to preserve backward compatibility a few things will be slightly different (and some are easier!) than what's been shown at previous versions. Therefore even if you've attended this tutorial multiple times in past and know the difference between copying and streaming, tokens vs. proxies, and know your schedds from your shadows, you are encouraged to attend this session. Here is a partial list of significant changes:
+
+* The jobsub_client product generally used for job submission has been replaced by the jobsub_lite product, which is very similar to jobsub_client except there is no server on the other side (i.e. there is more direct HTCondor interaction). You no longer need to set up the jobsub_client product as part of your software setup; it is installed via RPM now on all DUNE interactive machines. 
+* Authentication via tokens instead of proxies is now rolling out and is now the primary authentication method. Please note that not only are tokens used for job submission now, they are also used for storage element access.
+* It is no longer possible to write to certain directories from grid jobs as analysis users, namely the persistent area. Read access to the full /pnfs tree is still available. Bulk copies of job outputs from scratch to persistent have to be done outside of grid jobs.
 
 ## Submit a job
 
-**Note that job submission requires FNAL account but can be done from a CERN machine, or any other with CVMFS access.**
+**Note that job submission requires FNAL account or access to another HTCondor submission point conneected to the Fermilab pool (currently BNL or RAL).
 
-First, log in to a `dunegpvm` machine (should work from `lxplus` too with a minor extra step of getting a Fermilab Kerberos ticket on `lxplus` via `kinit`). Then you will need to set up the job submission tools (`jobsub`). If you set up `dunetpc` it will be included, but if not, you need to do
+First, log in to a `dunegpvm` machine . Then you will need to set up the job submission tools (`jobsub`). If you set up `dunetpc` it will be included, but if not, you need to do
 
 ```bash
-source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
-setup jobsub_client
-mkdir -p /pnfs/dune/scratch/users/${USER}/DUNE_tutorial_Jan2023 # if you have not done this before
-mkdir -p /pnfs/dune/scratch/users/${USER}/jan2023tutorial
+mkdir -p /pnfs/dune/scratch/users/${USER}/DUNE_tutorial_may2023 # if you have not done this before
+mkdir -p /pnfs/dune/scratch/users/${USER}/may2023tutorial
 ```
 Having done that, let us submit a prepared script:
 
 ~~~
-jobsub_submit -G dune -M -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE -l '+SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\"' --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
+jobsub_submit -G dune -M -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h  --singularity-image=/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
 ~~~
 {: .source}
 
@@ -117,7 +122,7 @@ To remove all of your jobs, you can do
 ```bash
 jobsub_rm -G dune --user=username
 ```
-If you want to manipulate only a certian subset of jobs, you can use a HTCondor-style constraint. For example, if I want to remove only held jobs asking for more than say 8 GB of memory that went held because they went over their request, I could do something like
+If you want to manipulate only a certain subset of jobs, you can use a HTCondor-style constraint. For example, if I want to remove only held jobs asking for more than say 8 GB of memory that went held because they went over their request, I could do something like
 ```bash
 jobsub_rm -G dune --constraint='Owner=="username"&&JobStatus==5&&RequestMemory>=8000&&(HoldReasonCode==34||(HoldReasonCode==26&&HoldReasonSubCode==1))'
 ```
