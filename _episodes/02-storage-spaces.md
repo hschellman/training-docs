@@ -129,7 +129,7 @@ Another useful data handling command you will soon come across is ifdh. This sta
 
 Here is an example to copy a file. Refer to the [Mission Setup]({{ site.baseurl }}/setup.html) for the setting up the `DUNESW_VERSION`.
 ~~~
-source ~/dune_presetup_202301.sh
+source ~/dune_presetup_202305.sh
 dune_setup
 kx509
 export ROLE=Analysis
