@@ -10,7 +10,7 @@ keypoints:
 - CPU, memory, and build time optimizations are possible when good code practices are followed.
 ---
 
-## DUNE Computing Training May 2022
+## DUNE Computing Training May 2023
 
 ## Session Video
 
