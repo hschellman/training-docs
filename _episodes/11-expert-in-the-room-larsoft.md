@@ -25,7 +25,7 @@ keypoints:
 ## Video Session
 
 <!--The session will be captured on video a placed here after the workshop for asynchronous study.-->
-The session was captured for your asynchronous review.
+The May 2022 session was captured for your review and will be replaced with the May 2023 version.
 
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/E1I9V4sdzHk" title="DUNE Computing Tutorial May 2022 Expert in the Room, LArSoft" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -61,10 +61,10 @@ lxplus.cern.ch interactive nodes. Create two scripts in your home directory:
 ~~~
 #!/bin/bash
 
-PROTODUNEANA_VERSION=v09_48_01d00
+PROTODUNEANA_VERSION=v09_72_01d00
 
 QUALS=e20:prof
-DIRECTORY=may2022tutorial
+DIRECTORY=may2023tutorial
 USERNAME=`whoami`
 export WORKDIR=/dune/app/users/${USERNAME}
 if [ ! -d "$WORKDIR" ]; then
@@ -90,10 +90,10 @@ mrb i -j16
 ~~~
 {: .language-bash}
 
-and `setupMay2022Tutorial.sh` should have these contents:
+and `setupMay2023Tutorial.sh` should have these contents:
 
 ~~~
-DIRECTORY=may2022tutorial
+DIRECTORY=may2023tutorial
 USERNAME=`whoami`
 
 source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
@@ -105,7 +105,7 @@ fi
 cd $WORKDIR/$DIRECTORY
 source localProducts*/setup
 cd work
-setup dunesw v09_48_01d00 -q e20:prof
+setup dunesw v09_72_01d00 -q e20:prof
 mrbslp
 ~~~
 {: .language-bash}
@@ -113,7 +113,7 @@ mrbslp
 Execute this command to make the first script executable.
 
 ~~~
-  chmod +x newDevMay2022Tutorial.sh
+  chmod +x newDevMay2023Tutorial.sh
 ~~~
 {: .language-bash}
 
@@ -140,7 +140,7 @@ to run programs (people need them to build code!)
 On the build node, execute the `newDev` script:
 
 ~~~
-  ./newDevMay2022Tutorial.sh
+  ./newDevMay2023Tutorial.sh
 ~~~
 {: .language-bash}
 
@@ -171,23 +171,23 @@ You can find the number of cores a machine has with
 
 The `mrb` system builds code in a directory distinct from the source code.  Source code is in `$MRB_SOURCE` and built code is in `$MRB_BUILDDIR`.  If the build succeeds (no error messages, and compiler warnings are treated as errors, and these will stop the build, forcing you to fix the problem), then the built artifacts are put in `$MRB_TOP/localProducts*`.  mrbslp directs ups to search in `$MRB_TOP/localProducts*` first for software and necessary components like `fcl` files.  It is good to separate the build directory from the install directory as a failed build will not prevent you from running the program from the last successful build.  But you have to look at the error messages from the build step before running a program.  If you edited source code, made a mistake, built it unsuccessfully, then running the program may run successfully with the last version which compiled.  You may be wondering why your code changes are having no effect.  You can look in `$MRB_TOP/localProducts*` to see if new code has been added (look for the "lib" directory under the architecture-specific directory of your product).
 
-Because you ran the `newDevMay2022Tutorial.sh` script instead of sourcing it, the environment it
+Because you ran the `newDevMay2023Tutorial.sh` script instead of sourcing it, the environment it
 set up within it is not retained in the login session you ran it from.  You will need to set up your environment again.
 You will need to do this when you log in anyway, so it is good to have
 that setup script.  In session #2, type this:
 
 ~~~
-  source setupMay2022Tutorial.sh
+  source setupMay2023Tutorial.sh
   cd $MRB_BUILDDIR
   mrbsetenv
 ~~~
 {: .language-bash}
 
-The shell command "source" instructs the command interpreter (bash) to read commands from the file `setupMay2022Tutorial.sh` as if they were typed at the terminal.  This way, environment variables set up by the script stay set up.
+The shell command "source" instructs the command interpreter (bash) to read commands from the file `setupMay2023Tutorial.sh` as if they were typed at the terminal.  This way, environment variables set up by the script stay set up.
 Do the following in session #1, the source editing session:
 
 ~~~
-source setupMay2022Tutorial.sh
+source setupMay2023Tutorial.sh
   cd $MRB_SOURCE
   mrbslp
 ~~~
@@ -199,7 +199,7 @@ source setupMay2022Tutorial.sh
 computer for session #3
 
 ~~~
-  source setupMay2022Tutorial.sh
+  source setupMay2023Tutorial.sh
   mrbslp
   setup_fnal_security
 ~~~
@@ -478,7 +478,7 @@ For protoduneana and dunesw, this [wiki page][dunetpc-wiki-tutorial] is quite go
 
 #### Version mismatch between source code and installed products
 
-When you perform an mrbsetenv or a mrbslp, sometimes you get a version mismatch.  The most common reason for this is that you have set up an older version of the dependent products.  Dunesw depends on protoduneana, which depends on dunecore, which depends on larsoft, which depends on *art*, ROOT, GEANT4, and many other products.  This [picture][dunesw-dependency-tree] shows the software dependency tree for dunesw v09_48_01_d00.  If the source code is newer than the installed products, the versions may mismatch.  You can check out an older version of the source code (see the example above) with
+When you perform an mrbsetenv or a mrbslp, sometimes you get a version mismatch.  The most common reason for this is that you have set up an older version of the dependent products.  Dunesw depends on protoduneana, which depends on dunecore, which depends on larsoft, which depends on *art*, ROOT, GEANT4, and many other products.  This [picture][dunesw-dependency-tree] shows the software dependency tree for dunesw v09_72_01_d00.  If the source code is newer than the installed products, the versions may mismatch.  You can check out an older version of the source code (see the example above) with
 
 ~~~
   mrb g -t <tag> repository
@@ -622,7 +622,7 @@ will use your valid Kerberos ticket to generate the necessary certificates and p
 [redmine-dev-larsoft]: https://cdcvs.fnal.gov/redmine/projects/larsoft/wiki/Developing_With_LArSoft
 [redmine-working-github]: https://cdcvs.fnal.gov/redmine/projects/larsoft/wiki/Working_with_GitHub
 [dune-larsoft-may21]: https://wiki.dunescience.org/wiki/Presentation_of_LArSoft_May_2021
-[dunesw-dependency-tree]: https://wiki.dunescience.org/w/img_auth.php/f/f0/Dunesw_v09_48_01d00_e20_prof_graph.pdf
+[dunesw-dependency-tree]: https://wiki.dunescience.org/w/img_auth.php/6/6f/Dunesw_v09_72_01_e20_prof_graph.pdf
 
 {%include links.md%} 
 
