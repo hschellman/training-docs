@@ -71,13 +71,7 @@ jobsub_submit -G dune -M -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-life
 If all goes well you should see something like this:
 
 ~~~
-/fife/local/scratch/uploads/dune/kherner/2022-05-11_151253.446116_5339
-/fife/local/scratch/uploads/dune/kherner/2022-05-11_151253.446116_5339/submission_test_singularity.sh_20220511_151254_1116939_0_1_.cmd
-submitting....
-Submitting job(s).
-1 job(s) submitted to cluster 32496605.
-JobsubJobId of first job: 32496605.0@jobsub03.fnal.gov
-Use job id 32496605.0@jobsub03.fnal.gov to retrieve output
+to update
 ~~~
 {: .output}
 
@@ -87,12 +81,15 @@ Use job id 32496605.0@jobsub03.fnal.gov to retrieve output
 >
 {: .solution}
 
+
+*Note if you have not submitted a DUNE batch job within the past 30 days:* you may be asked to (re-)authenticate. 
+
+
 Now, let's look at some of these options in more detail.
 
 * `-M` sends mail after the job completes whether it was successful for not. The default is email only on error. To disable all emails, use `--mail_never`.  
 * `-N` controls the number of identical jobs submitted with each cluster. Also called the process ID, the number ranges from 0 to N-1 and forms the part of the job ID number after the period, e.g. 12345678.N.  
 * `--memory, --disk, --cpu, --expected-lifetime` request this much memory, disk, number of cpus, and max run time.  Jobs that exceed the requested amounts will go into a held state. Defaults are 2000 MB, 10 GB, 1, and 8h, respectively. Note that jobs are charged against the DUNE FermiGrid quota according to the greater of memory/2000 MB and number of CPUs, with fractional values possible. For example, a 3000 MB request is charged 1.5 "slots", and 4000 MB would be charged 2. You are charged for the amount **requested**, not what is actually used, so you should not request any more than you actually need (your jobs will also take longer to start the more resources you request). Note also that jobs that run offsite do NOT count against the FermiGrid quota. **In general, aim for memory and run time requests that will cover 90-95% of your jobs and use the [autorelease feature][job-autorelease] to deal with the remainder**.  
-* `--resource-provides=usage_model` This controls where jobs are allowed to run. DEDICATED means use the DUNE FermiGrid quota, OPPORTUNISTIC means use idle FermiGrid resources beyond the DUNE quota if they are available, and OFFSITE means use non-Fermilab resources. You can combine them in a comma-separated list. <span style="color:red"> In nearly all cases you should be setting this to DEDICATED,OPPORTUNISTIC,OFFSITE.</span> This ensures maximum resource availability and will get your jobs started the fastest. Note that because of Singularity, **there is absolutely no difference** between the environment on Fermilab worker nodes and any other place. Depending on where your input data are (if any), you might see slight differences in network latency, but that's it.  
 * `-l` (or `--lines=`) allows you to pass additional arbitrary HTCondor-style `classad` variables into the job. In this case, we're specifying exactly what `Singularity` image we want to use in the job. It will be automatically set up for us when the job starts. Any other valid HTCondor `classad` is possible. In practice you don't have to do much beyond the `Singularity` image. Here, pay particular attention to the quotes and backslashes.  
 * `--append_condor_requirements` allows you to pass additional `HTCondor-style` requirements to your job. This helps ensure that your jobs don't start on a worker node that might be missing something you need (a corrupt or out of date `CVMFS` repository, for example). Some checks run at startup for a variety of `CVMFS` repositories. Here, we check that Singularity invocation is working and that the `CVMFS` repos we need ( [dune.opensciencegrid.org][dune-openscience-grid-org] and [larsoft.opensciencegrid.org][larsoft-openscience-grid-org] ) are in working order. Optionally you can also place version requirements on CVMFS repos (as we did here as an example), useful in case you want to use software that was published very recently and may not have rolled out everywhere yet.
 *  `-e VAR=VAL` will set the environment variable VAR to the value VAL inside the job. You can pass this option multiple times for each variable you want to set. You can also just do `-e VAR` and that will set VAR inside the job to be whatever value it's set to in your current environment (make sure it's actually set though!) **One thing to note here as of January 2022 is that these two gfal variables may need to be set as shown to prevent problems with output copyback at a few sites.** It is safe to set these variable to the values shown here in all jobs at all sites, since the locations exist in the default container (assuming you're using that).
