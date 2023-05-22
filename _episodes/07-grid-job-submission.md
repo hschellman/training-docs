@@ -47,9 +47,12 @@ The official timetable for this training event is on the [Indico site](https://i
 
 The past few months have seen significant changes in how DUNE (as well as other FNAL experiments) submits jobs and interacts with storage elements. While every effort was made to preserve backward compatibility a few things will be slightly different (and some are easier!) than what's been shown at previous versions. Therefore even if you've attended this tutorial multiple times in past and know the difference between copying and streaming, tokens vs. proxies, and know your schedds from your shadows, you are encouraged to attend this session. Here is a partial list of significant changes:
 
-* The jobsub_client product generally used for job submission has been replaced by the jobsub_lite product, which is very similar to jobsub_client except there is no server on the other side (i.e. there is more direct HTCondor interaction). You no longer need to set up the jobsub_client product as part of your software setup; it is installed via RPM now on all DUNE interactive machines. 
+* The jobsub_client product generally used for job submission has been replaced by the [jobsub_lite](https://fifewiki.fnal.gov/wiki/Jobsub_Lite)
+ product, which is very similar to jobsub_client except there is no server on the other side (i.e. there is more direct HTCondor interaction). You no longer need to set up the jobsub_client product as part of your software setup; it is installed via RPM now on all DUNE interactive machines. 
 * Authentication via tokens instead of proxies is now rolling out and is now the primary authentication method. Please note that not only are tokens used for job submission now, they are also used for storage element access.
 * It is no longer possible to write to certain directories from grid jobs as analysis users, namely the persistent area. Read access to the full /pnfs tree is still available. Bulk copies of job outputs from scratch to persistent have to be done outside of grid jobs.
+* Multiple `--tar_file_name` options are now supported (and will be unpacked) if you need things in multiple tarballs.
+* The `-f` behavior with and without dropbox:// in front is slightly different from legacy jobsub; see the [documentation](https://fifewiki.fnal.gov/wiki/Differences_between_jobsub_lite_and_legacy_jobsub_client/server#Bug_with_-f_dropbox:.2F.2F.2Fa.2Fb.2Fc.tar) for details.
 
 ## Submit a job
 
@@ -64,7 +67,7 @@ mkdir -p /pnfs/dune/scratch/users/${USER}/may2023tutorial
 Having done that, let us submit a prepared script:
 
 ~~~
-jobsub_submit -G dune -M -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h  --singularity-image=/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
+jobsub_submit -G dune --mail_always -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h  --singularity-image=/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
 ~~~
 {: .source}
 
@@ -82,8 +85,29 @@ to update
 {: .solution}
 
 
-*Note if you have not submitted a DUNE batch job within the past 30 days:* you may be asked to (re-)authenticate. 
+*Note if you have not submitted a DUNE batch job within the past 30 days:* you may be asked to (re-)authenticate. If so you will see the following:
 
+~~~
+Attempting OIDC authentication with https://htvaultprod.fnal.gov:8200
+
+Complete the authentication at:
+    https://cilogon.org/device/?user_code=ABC-D1E-FGH
+No web open command defined, please copy/paste the above to any web browser
+Waiting for response in web browser
+~~~
+
+The user code will be different of course. In this particular case, you do want to follow the instructions and copy and paste the link into your browser (can be any browser). There is a time limit on it so its best to do it right away. Always choose Fermilab as the identity provider in the menu, even if your home institution is listed. After you hit log on, you'll get a message saying you approved the access request, and then after a short delay (may be several seconds) in the terminal you will see
+
+~~~
+Saving credkey to /nashome/u/username/.config/htgettoken/credkey-dune-default
+Saving refresh token ... done
+Attempting to get token from https://htvaultprod.fnal.gov:8200 ... succeeded
+Storing bearer token in /tmp/bt_token_dune_Analysis_somenumber.othernumber
+Storing condor credentials for dune
+Submitting job(s)
+.
+1 job(s) submitted to cluster 57110235.
+~~~
 
 Now, let's look at some of these options in more detail.
 
@@ -92,15 +116,13 @@ Now, let's look at some of these options in more detail.
 * `--memory, --disk, --cpu, --expected-lifetime` request this much memory, disk, number of cpus, and max run time.  Jobs that exceed the requested amounts will go into a held state. Defaults are 2000 MB, 10 GB, 1, and 8h, respectively. Note that jobs are charged against the DUNE FermiGrid quota according to the greater of memory/2000 MB and number of CPUs, with fractional values possible. For example, a 3000 MB request is charged 1.5 "slots", and 4000 MB would be charged 2. You are charged for the amount **requested**, not what is actually used, so you should not request any more than you actually need (your jobs will also take longer to start the more resources you request). Note also that jobs that run offsite do NOT count against the FermiGrid quota. **In general, aim for memory and run time requests that will cover 90-95% of your jobs and use the [autorelease feature][job-autorelease] to deal with the remainder**.  
 * `-l` (or `--lines=`) allows you to pass additional arbitrary HTCondor-style `classad` variables into the job. In this case, we're specifying exactly what `Singularity` image we want to use in the job. It will be automatically set up for us when the job starts. Any other valid HTCondor `classad` is possible. In practice you don't have to do much beyond the `Singularity` image. Here, pay particular attention to the quotes and backslashes.  
 * `--append_condor_requirements` allows you to pass additional `HTCondor-style` requirements to your job. This helps ensure that your jobs don't start on a worker node that might be missing something you need (a corrupt or out of date `CVMFS` repository, for example). Some checks run at startup for a variety of `CVMFS` repositories. Here, we check that Singularity invocation is working and that the `CVMFS` repos we need ( [dune.opensciencegrid.org][dune-openscience-grid-org] and [larsoft.opensciencegrid.org][larsoft-openscience-grid-org] ) are in working order. Optionally you can also place version requirements on CVMFS repos (as we did here as an example), useful in case you want to use software that was published very recently and may not have rolled out everywhere yet.
-*  `-e VAR=VAL` will set the environment variable VAR to the value VAL inside the job. You can pass this option multiple times for each variable you want to set. You can also just do `-e VAR` and that will set VAR inside the job to be whatever value it's set to in your current environment (make sure it's actually set though!) **One thing to note here as of January 2022 is that these two gfal variables may need to be set as shown to prevent problems with output copyback at a few sites.** It is safe to set these variable to the values shown here in all jobs at all sites, since the locations exist in the default container (assuming you're using that).
+*  `-e VAR=VAL` will set the environment variable VAR to the value VAL inside the job. You can pass this option multiple times for each variable you want to set. You can also just do `-e VAR` and that will set VAR inside the job to be whatever value it's set to in your current environment (make sure it's actually set though!) **One thing to note here as of May 2023 is that these two gfal variables may need to be set as shown to prevent problems with output copyback at a few sites.** It is safe to set these variable to the values shown here in all jobs at all sites, since the locations exist in the default container (assuming you're using that).
 
 ## Job Output
 
 This particular test writes a file to `/pnfs/dune/scratch/users/<username>/job_output_<id number>.log`.
 Verify that the file exists and is non-zero size after the job completes.
 You can delete it after that; it just prints out some information about the environment.
-
-More information about `jobsub` is available [here][redmine-wiki-jobsub] and [here][redmine-wiki-using-the-client].
 
 ## Manipulating submitted jobs
 
@@ -144,8 +166,8 @@ You will have to change the last line with your own submit file instead of the p
 First, we should make a tarball. Here is what we can do (assuming you are starting from /dune/app/users/username/):
 
 ```bash
-cp /dune/app/users/kherner/setupjan2023tutorial-grid.sh /dune/app/users/${USER}/
-cp /dune/app/users/kherner/jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid /dune/app/users/${USER}/jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid
+cp /dune/app/users/kherner/setupmay2023tutorial-grid.sh /dune/app/users/${USER}/
+cp /dune/app/users/kherner/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid /dune/app/users/${USER}/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid
 ```
 
 Before we continue, let's examine these files a bit. We will source the first one in our job script, and it will set up the environment for us.
@@ -153,7 +175,7 @@ Before we continue, let's examine these files a bit. We will source the first on
 ~~~
 #!/bin/bash                                                                                                                                                                                                      
 
-DIRECTORY=jan2023tutorial
+DIRECTORY=may2023tutorial
 # we cannot rely on "whoami" in a grid job. We have no idea what the local username will be.
 # Use the GRID_USER environment variable instead (set automatically by jobsub). 
 USERNAME=${GRID_USER}
@@ -174,36 +196,36 @@ Now let's look at the difference between the setup-grid script and the plain set
 Assuming you are currently in the /dune/app/users/username directory:
 
 ```bash
-diff jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid
+diff may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid
 ```
 
 ~~~
-< setenv MRB_TOP "/dune/app/users/<username>/jan2023tutorial"
-< setenv MRB_TOP_BUILD "/dune/app/users/<username>/jan2023tutorial"
-< setenv MRB_SOURCE "/dune/app/users/<username>/jan2023tutorial/srcs"
-< setenv MRB_INSTALL "/dune/app/users/<username>/jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof"
+< setenv MRB_TOP "/dune/app/users/<username>/may2023tutorial"
+< setenv MRB_TOP_BUILD "/dune/app/users/<username>/may2023tutorial"
+< setenv MRB_SOURCE "/dune/app/users/<username>/may2023tutorial/srcs"
+< setenv MRB_INSTALL "/dune/app/users/<username>/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof"
 ---
-> setenv MRB_TOP "${INPUT_TAR_DIR_LOCAL}/jan2023tutorial"
-> setenv MRB_TOP_BUILD "${INPUT_TAR_DIR_LOCAL}/jan2023tutorial"
-> setenv MRB_SOURCE "${INPUT_TAR_DIR_LOCAL}/jan2023tutorial/srcs"
-> setenv MRB_INSTALL "${INPUT_TAR_DIR_LOCAL}/jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof"
+> setenv MRB_TOP "${INPUT_TAR_DIR_LOCAL}/may2023tutorial"
+> setenv MRB_TOP_BUILD "${INPUT_TAR_DIR_LOCAL}/may2023tutorial"
+> setenv MRB_SOURCE "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/srcs"
+> setenv MRB_INSTALL "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof"
 ~~~
 {: .output}
 
 As you can see, we have switched from the hard-coded directories to directories defined by environment variables; the `INPUT_TAR_DIR_LOCAL` variable will be set for us (see below).
-Now, let's actually create our tar file. Again assuming you are in `/dune/app/users/kherner/jan2023tutorial/`:
+Now, let's actually create our tar file. Again assuming you are in `/dune/app/users/kherner/may2023tutorial/`:
 ```bash
-tar --exclude '.git' -czf jan2023tutorial.tar.gz jan2023tutorial/localProducts_larsoft_v09_63_00_e20_prof jan2023tutorial/work setupjan2023tutorial-grid.sh
+tar --exclude '.git' -czf may2023tutorial.tar.gz may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof may2023tutorial/work setupmay2023tutorial-grid.sh
 ```
 Then submit another job (in the following we keep the same submit file as above):
 
 ```bash
-jobsub_submit -G dune -M -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h --cpu=1 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE --tar_file_name=dropbox:///dune/app/users/<username>/jan2023tutorial.tar.gz -l '+SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\"' --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105&&TARGET.HAS_CVMFS_fifeuser1_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser2_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser3_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser4_opensciencegrid_org==true)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/run_jan2023tutorial.sh
+jobsub_submit -G dune -M -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h --cpu=1 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE --tar_file_name=dropbox:///dune/app/users/<username>/may2023tutorial.tar.gz -l '+SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\"' --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105&&TARGET.HAS_CVMFS_fifeuser1_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser2_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser3_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser4_opensciencegrid_org==true)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/run_may2023tutorial.sh
 ```
 
 You'll see this is very similar to the previous case, but there are some new options: 
 
-* `--tar_file_name=dropbox://` automatically copies and untars the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job. As of now, only one such tarball can be specified. If you need to copy additional files into your job that are not in the main tarball you can use the -f option (see the jobsub manual for details). The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file, so if you have a tar file named e.g. jan2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/jan2023tutorial.
+* `--tar_file_name=dropbox://` automatically copies and untars the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job. As of now, only one such tarball can be specified. If you need to copy additional files into your job that are not in the main tarball you can use the -f option (see the jobsub manual for details). The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file, so if you have a tar file named e.g. may2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/may2023tutorial.
 * Notice that the `--append_condor_requirements` line is longer now, because we also check for the fifeuser[1-4]. opensciencegrid.org CVMFS repositories.  
 
 Now, there's a very small gotcha when using the RCDS, and that is when your job runs, the files in the unzipped tarball are actually placed in your work area as symlinks from the CVMFS version of the file (which is what you want since the whole point is not to have N different copies of everything).
@@ -274,104 +296,36 @@ Of course replace 12345678.0@jobsub0N.fnal.gov with your own job ID.
 >
 {: .solution}
 
-## Brief review of best practices in grid jobs (and a bit on the interactive machines)
+## Review of best practices in grid jobs (and a bit on the interactive machines)
 
 * When creating a new workflow or making changes to an existing one, <span style="color:red">**ALWAYS test with a single job first**</span>. Then go up to 10, etc. Don't submit thousands of jobs immediately and expect things to work.  
-* **ALWAYS** be sure to prestage your input datasets before launching large sets of jobs. This may become less necesaary in the future 
+* **ALWAYS** be sure to prestage your input datasets before launching large sets of jobs. This may become less necesaary in the future as we move to distributed storage locations.
 * **Use RCDS**; do not copy tarballs from places like scratch dCache. There's a finite amount of transfer bandwidth available from each dCache pool. If you absolutely cannot use RCDS for a given file, it's better to put it in resilient (but be sure to remove it when you're done!). The same goes for copying files from within your own job script: if you have a large number of jobs looking for a same file, get it from resilient. Remove the copy when no longer needed. Files in resilient dCache that go unaccessed for 45 days are automatically removed.  
-* Be careful about placing your output files. **NEVER place more than a few thousand files into any one directory inside dCache. That goes for all type of dCache (scratch, persistent, resilient, etc).**
-* **Avoid** commands like `ifdh ls /path/with/wildcards/*/` inside grid jobs. That is a VERY expensive operation and can cause a lot of pain for many users.  
-* Use xrootd when opening files interactively; this is much more stable than simply doing `root /pnfs/dune/...`
+* Be careful about placing your output files. **NEVER place more than a few thousand files into any one directory inside dCache. That goes for all type of dCache (scratch, persistent, resilient, etc). Subdirectories also count against the total for these purposes, so don't put too many subdirectories at any one level.
+* **Avoid** commands like `ifdh ls /some/path` inside grid jobs unless it is absolutely necessary. That is an expensive operation and can cause a lot of pain for many users, especially when a directory has large number of files in it. Remote listings take much, much longer than the corresponding op on a machine where the directory is mounted via NFS. If you just need to verify a directory exists, there are much better ways than ifdh ls, for example the gfal-stat command.
+* Use xrootd when opening files interactively; this is much more stable than simply doing `root /pnfs/dune/... (and in general, do NOT do that...)`
 * **NEVER** copy job outputs to a directory in resilient dCache. Remember that they are replicated by a factor of 20! **Any such files are subject to deletion without warning**.  
 * **NEVER** do hadd on files in `/pnfs` areas unless you're using `xrootd`. I.e. do NOT do hadd out.root `/pnfs/dune/file1 /pnfs/dune/file2 ...` This can cause severe performance degradations.  
-
 
 **Side note:** Some people will pass file lists to their jobs instead of using a SAM dataset. We do not recommend that for two reasons: 1) Lists do not protect you from cases where files fall out of cache at the location(s) in your list. When that happens your jobs sit idle waiting for the files to be fetched from tape, which kills your efficiency and blocks resources for others. 2) You miss out on cases where there might be a local copy of the file at the site you're running on, or at least at closer one to your list. So you may end up unecessarily streaming across oceans, whereas using SAM (or later Rucio) will find you closer, local copies when they exist.
 
 **Another important side note:** If you are used to using other programs for your work such as project.py (which is **NOT** officially supported by DUNE or the Fermilab Scientific Computing Division), there is a helpful tool called [Project-py][project-py-guide] that you can use to convert existing xml into POMS configs, so you don't need to start from scratch! Then you can just switch to using POMS from that point forward. As a reminder, if you use unsupported tools, you are own your own and will receive NO SUPPORT WHATSOEVER. You are still responsible for making sure that your jobs satisfy Fermilab's policy for job efficiency: https://cd-docdb.fnal.gov/cgi-bin/sso/RetrieveFile?docid=7045&filename=FIFE_User_activity_mitigation_policy_20200625.pdf&version=1
 
+## The cost of getting it wrong: a cautionary tale
 
-## The Future is Now(-ish): jobsub_lite
+Earlier in May 2023 there was a fairly significant disruption to FNAL dCache, which resulted in at least five different tickets across four different experiments complaining of poor performance (resulting in jobs going held of exceeding time), timeouts, or other storage-related failures. It's unclear exactly how many jobs were affcted but it was likely in the many thousands. The root cause was a DUNE user running `ifdh ls $OUTDIR 0` to check the existence of a given directory. That command, though it only spits out the directory name, was indeed doing a full internal listing of the contents of $OUTDIR. Normally that's not the end of the world (see the comment in the best practices section), but this directory had over 100,000 files in it! The user was writing all job outputs into the same directory from what we could tell. 
 
-The existing jobsub consist of both a server and a client product (what users see). In order to simplify development and maintenance a new product call *jobsub_lite* is now available. There is no need for a separate server with jobsub_lite as the client talks directly to HTCondor schedulers. The client has nearly a 100% command name and feature overlap with the existing jobsub_client (sometimes hereafter called "legacy jobsub") and generally requires little to no modification of existing submission scripts. It is currently available for testing on dunegpvm14 and dunegpvm15 and will be on the rest of the gpvm machines by early February, but is already available on all machines via CVMFS.
+Since the workflow was causing a systemwide disruption we immediately held all of the user's jobs and blocked new submissions until the workflow was re-engineered. Fortunately dCache performance recovered very quickly after that. The user's jobs are running again and they are also much more CPU-efficient than they were before the changes.
 
-The official jobsub_lite documentation page is here: [https://fifewiki.fnal.gov/wiki/Jobsub_Lite](https://fifewiki.fnal.gov/wiki/Jobsub_Lite)
+*The bottom line: one single user not following best practices can disrupt the entire system if they get enough jobs running.* EVERYONE is responsible for following best practices. Getting it wrong affects not only you, but your collaborators!
 
-**Note: jobsub_lite will be the default product, and legacy jobsub will no longer work, by the next collaboration meeting in May.** 
+## A word on the DUNE Global Pool
 
-The biggest change behind the scenes other than getting rid of the server side of things is the switch to using tokens instead of x509 proxies for authenitcation. This is nearly 100% transparent in reality; the jobs all work the same way, and fresh tokens are automatically pushed to jobs much like proxies are now. In reality, there's nothing to worry about with tokens after you do the first submission (see below).
 
-Since the changeover will be happening gradually over the next few months, now is a good time to gain familiarity with it and test your workflows. Let's try the same things we did before. If you're logged in to dunegpvm14 or dunegpvm15 with no DUNE software set up, things will already work. If you're on another machine and/or have done some UPS setup steps, then you just need to do
-
-```bash
-setup jobsub_client v_lite
-```
-
-Let's try a submission very similar to the first one we did:
-
-```bash
-jobsub_submit -G dune --mail_always -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h --cpu=1 -l '+SingularityImage="/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest"' --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105&&TARGET.HAS_CVMFS_fifeuser1_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser2_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser3_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser4_opensciencegrid_org==true)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///nashome/k/kherner/submission_test_singularity.sh
-```
-The first time you try to do a submission you will probably get some output like this:
-~~~
-ttempting OIDC authentication with https://htvaultprod.fnal.gov:8200
-
-Complete the authentication at:
-    https://cilogon.org/device/?user_code=ABC-D1E-FGH
-No web open command defined, please copy/paste the above to any web browser
-Waiting for response in web browser
-~~~
-
-In this particular case, you do want to follow the instructions and copy and paste the link into your browser (can be any browser). There is a time limit on it so its best to do it right away. Always choose Fermilab as the identity provider in the menu, even if your home institution is listed. After you hit log on, you'll get a message saying you approved the access request, and then after a short delay (may be several seconds) in the terminal you will see
-
-~~~
-Saving credkey to /nashome/u/username/.config/htgettoken/credkey-dune-default
-Saving refresh token ... done
-Attempting to get token from https://htvaultprod.fnal.gov:8200 ... succeeded
-Storing bearer token in /tmp/bt_token_dune_Analysis_number.othernumber
-Storing condor credentials for dune
-Submitting job(s)
-.
-1 job(s) submitted to cluster 57110235.
-~~~
-
-And that's it! Then you can use *jobsub_rm*, *jobsub_fetchlog*, etc., as you normally would. **Note you can't see or manipulate jobs submitted with jobsub_lite with legacy jobsub, and vice versa.** The refresh tokens are good for 30 days, so as long as you do something that uses a token at least once every 30 days, you won't have to go through the browser request approval again. If you don't, then you'll just get the same message as earlier and you paste the link into a browser as we did. One other thing to note there is that if you often submit via scripts or other automation, make sure you have a valid refresh token before you kick the scripts off. You could just submit a single dummy job by hand and then immediately remove it, for example.
-
-Let's consider a few differences betwene this submission at the first one:
-
-* `-M` is replaced with `--mail_always`, though it works the same way.
-* `--resource-provides=...` is no longer needed, though you can still give it without breaking anything. There are simplified options available for controlling where jobs can run; see the [documentation](https://fifewiki.fnal.gov/wiki/Differences_between_jobsub_lite_and_legacy_jobsub_client/server#--site.2F--onsite.2F--offsite) for details. The default is still to run on all available resources, which is almost always what you want anyway.
-* It wasn't necessary to escape the double quotes in `-l '+SingularityImage="/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest"'`. You can keep the escapes in any existing submission scripts though, and it will still work properly.
-
-Now let's submit our job with an input tarball:
-
-```bash
-jobsub_submit -G dune --mail_always -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h --cpu=1 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE --tar_file_name=dropbox:///dune/app/users/kherner/jan2023tutorial.tar.gz -l '+SingularityImage="/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest"' --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105&&TARGET.HAS_CVMFS_fifeuser1_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser2_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser3_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser4_opensciencegrid_org==true)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/run_jan2023tutorial.sh
-```
-
-~~~
-Attempting to get token from https://htvaultprod.fnal.gov:8200 ... succeeded
-Storing bearer token in /tmp/bt_token_dune_Analysis_11469
-Using bearer token located at /tmp/bt_token_dune_Analysis_11469 to authenticate to RCDS
-Checking to see if uploaded file is published on RCDS.
-Could not locate uploaded file on RCDS.  Will retry in 30 seconds.
-Found uploaded file on RCDS.
-Submitting job(s).
-1 job(s) submitted to cluster 57110231.
-Use job id 57110231.0@jobsub01.fnal.gov to retrieve output
-~~~
 
 Note that it did not prompt for another token since it already had one. If you're uploading a new (or modified) tar file, there may be a short delay before the submission finishes because it (now correctly) waits until the tar file is on the RCDS publishing machine.
 
-### Some known issues and things to be aware of, January 2023
 
-Since jobsub_lite isn't officially in production yet, there are still a few things that may slightly change, don't quite work as advertised yet, or are slightly different from how legacy jobsub worked. Here is a non-exhaustive list:
-
-* Emails on job completion aren't working yet.
-* jobsub_lite jobs (and logs) aren't visible in FIFEMON yet, but they will be.
-* Output directories must be group-writable for copyback to work. Just doing `chmod g+w mydirectory` is enough. That should be fixed in February 2023 during a scheduled dCache downtime.
-* Multiple `--tar_file_name` options are now supported (and will be unpacked) if you need things in multiple tarballs.
-* The `-f` behavior with and without dropbox:// in front is slightly different from legacy jobsub; see the [documentation](https://fifewiki.fnal.gov/wiki/Differences_between_jobsub_lite_and_legacy_jobsub_client/server#Bug_with_-f_dropbox:.2F.2F.2Fa.2Fb.2Fc.tar) for details.
 * Older versions of IFDH will not support tokens, so be careful if you're intentionally setting up old versions. Everything now current is fine though.
 * For normal analysis use, you will only be able to copy back directly to your user directory in scratch dCache and possibly some other SEs as remote sites decide to allow.
 * Jobsub_lite submission does not work from lxplus. Ways to submit from outside Fermilab are still under development.
