@@ -48,7 +48,7 @@ The official timetable for this training event is on the [Indico site](https://i
 The past few months have seen significant changes in how DUNE (as well as other FNAL experiments) submits jobs and interacts with storage elements. While every effort was made to preserve backward compatibility a few things will be slightly different (and some are easier!) than what's been shown at previous versions. Therefore even if you've attended this tutorial multiple times in past and know the difference between copying and streaming, tokens vs. proxies, and know your schedds from your shadows, you are encouraged to attend this session. Here is a partial list of significant changes:
 
 * The jobsub_client product generally used for job submission has been replaced by the [jobsub_lite](https://fifewiki.fnal.gov/wiki/Jobsub_Lite)
- product, which is very similar to jobsub_client except there is no server on the other side (i.e. there is more direct HTCondor interaction). You no longer need to set up the jobsub_client product as part of your software setup; it is installed via RPM now on all DUNE interactive machines. 
+ product, which is very similar to jobsub_client except there is no server on the other side (i.e. there is more direct HTCondor interaction). You no longer need to set up the jobsub_client product as part of your software setup; it is installed via RPM now on all DUNE interactive machines. See [this Wiki page](https://fifewiki.fnal.gov/wiki/Differences_between_jobsub_lite_and_legacy_jobsub_client/server) for some differences between jobsub_lite and legacy jobsub.
 * Authentication via tokens instead of proxies is now rolling out and is now the primary authentication method. Please note that not only are tokens used for job submission now, they are also used for storage element access.
 * It is no longer possible to write to certain directories from grid jobs as analysis users, namely the persistent area. Read access to the full /pnfs tree is still available. Bulk copies of job outputs from scratch to persistent have to be done outside of grid jobs.
 * Multiple `--tar_file_name` options are now supported (and will be unpacked) if you need things in multiple tarballs.
@@ -67,14 +67,27 @@ mkdir -p /pnfs/dune/scratch/users/${USER}/may2023tutorial
 Having done that, let us submit a prepared script:
 
 ~~~
-jobsub_submit -G dune --mail_always -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h  --singularity-image=/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
+jobsub_submit -G dune --mail_always -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h  --singularity-image /cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
 ~~~
 {: .source}
 
 If all goes well you should see something like this:
 
 ~~~
-to update
+Attempting to get token from https://htvaultprod.fnal.gov:8200 ... succeeded
+Storing bearer token in /tmp/bt_token_dune_Analysis_11469
+Transferring files to web sandbox...
+Copying file:///nashome/k/kherner/.cache/jobsub_lite/js_2023_05_21_205736_877318d7-d14a-4c5a-b2fc-7486f1e54fa2/submission_test_singularity.sh   [DONE]  after 2s                                                                                                               
+Copying file:///nashome/k/kherner/.cache/jobsub_lite/js_2023_05_21_205736_877318d7-d14a-4c5a-b2fc-7486f1e54fa2/simple.cmd   [DONE]  after 5s                                                                                                                                   
+Copying file:///nashome/k/kherner/.cache/jobsub_lite/js_2023_05_21_205736_877318d7-d14a-4c5a-b2fc-7486f1e54fa2/simple.sh   [DONE]  after 5s                                                                                                                                    
+Submitting job(s).
+1 job(s) submitted to cluster 710165.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Use job id 710165.0@jobsub05.fnal.gov to retrieve output
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
 ~~~
 {: .output}
 
@@ -217,6 +230,8 @@ Now, let's actually create our tar file. Again assuming you are in `/dune/app/us
 ```bash
 tar --exclude '.git' -czf may2023tutorial.tar.gz may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof may2023tutorial/work setupmay2023tutorial-grid.sh
 ```
+Note how we have excluded the contents of ".git" directories in the various packages, since we don't need any of that in our jobs. It turns out that the .git directory can sometimes account for a substantial fraction of a package's size on disk! 
+
 Then submit another job (in the following we keep the same submit file as above):
 
 ```bash
@@ -225,7 +240,7 @@ jobsub_submit -G dune -M -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h 
 
 You'll see this is very similar to the previous case, but there are some new options: 
 
-* `--tar_file_name=dropbox://` automatically copies and untars the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job. As of now, only one such tarball can be specified. If you need to copy additional files into your job that are not in the main tarball you can use the -f option (see the jobsub manual for details). The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file, so if you have a tar file named e.g. may2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/may2023tutorial.
+* `--tar_file_name=dropbox://` automatically **copies and untars** the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job.  The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file, so if you have a tar file named e.g. may2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/may2023tutorial.
 * Notice that the `--append_condor_requirements` line is longer now, because we also check for the fifeuser[1-4]. opensciencegrid.org CVMFS repositories.  
 
 Now, there's a very small gotcha when using the RCDS, and that is when your job runs, the files in the unzipped tarball are actually placed in your work area as symlinks from the CVMFS version of the file (which is what you want since the whole point is not to have N different copies of everything).
@@ -321,17 +336,7 @@ Since the workflow was causing a systemwide disruption we immediately held all o
 
 ## A word on the DUNE Global Pool
 
-
-
-Note that it did not prompt for another token since it already had one. If you're uploading a new (or modified) tar file, there may be a short delay before the submission finishes because it (now correctly) waits until the tar file is on the RCDS publishing machine.
-
-
-* Older versions of IFDH will not support tokens, so be careful if you're intentionally setting up old versions. Everything now current is fine though.
-* For normal analysis use, you will only be able to copy back directly to your user directory in scratch dCache and possibly some other SEs as remote sites decide to allow.
-* Jobsub_lite submission does not work from lxplus. Ways to submit from outside Fermilab are still under development.
-
-Quite a bit of extra information is included in the "Futher Reading" section. See the top for jobsub_lite information.
-
+DUNE has also created a a global glideinWMS pool similar to the CMS Global Pool that is intended to serve as a single point through which multiple job submission systems (e.g. HTCondor schedulers at sites outside of Fermilab) can have access to the same resources. Jobs using the global pool still run in the exactly the same way as those that don't. We plan to move more and more work over to the global pool in 2023 and priority access to the FermiGrid quota will eventually be given to jobs submitted to the global pool. To switch to the global pool with jobsub, it's simply a matter of adding `--global-pool dune` as an option to your submission command. The only practical difference is that your jobs will come back with IDs of the form NNNNNNN.N@dunegpschedd0X.fnal.gov instead of NNNNNNN.N@jobsub0X.fnal.gov. Again, everything else is identical, so feel free to test it out.
 
 
 ## Verify Your Learning:
