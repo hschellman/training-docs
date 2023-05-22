@@ -14,23 +14,27 @@ keypoints:
 ---
 ## DUNE Computing Consortium
 
-The goal of the DUNE Computing Consortium is to establish a global computing network that can handle the massive data dumps DUNE will produce by distributing them across the grid. It coordinates all DUNE computing activities and provides to new members the documentation and training to acquaint them with the specific and DUNE software and resources.
+The DUNE Computing Consortium works to establish a global computing network that will handle the massive data streams produced by distributing these across the computing grid.
+Selected consortia members coordinate DUNE computing activities to new members to acquaint them with the specific and DUNE software and resources.
 
-Coordinator: Heidi Schellman (Oregon State University)
+DUNE Computing Consortium Coordinator: Heidi Schellman (Oregon State University)
 
+<!--
 ## Welcome Session Video
 
-<!--The session will be captured on video a placed here after the workshop for asynchronous study.-->
+The session will be captured on video a placed here after the workshop for asynchronous study.
 A similar session from May 2022 was captured for your asynchronous review.
-
 
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/B1mr3v1i7M8" title="DUNE Computing Tutorial May 2022 Introduction" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
+-->
 
-The May 2023 session will be captured on video a placed here after the workshop for asynchronous study.
+## Schedule
 
-## Tutorial Instructors
+The May 2023 DUNE computing training spans two days: [Indico site](https://indico.fnal.gov/event/59762/timetable/#20230524).
+
+## Instructional Crew
 
 **Organizers:**
 - Heidi Schellman (Oregon State University /FNAL)
@@ -44,13 +48,8 @@ The May 2023 session will be captured on video a placed here after the workshop 
 
 **Mentors**
 - Amit Bashyal (ANL)
-- Carlos Sarasty (University of Cincinnati)
-
-## Schedule
-
-This incarnation of the computing training spans two days. 
-
-The official schedule for this training is on the [Indico site](https://indico.fnal.gov/event/59762/timetable/#20230524).
+- Aaron Higuera (Rice University)
+- Pengfei Ding (FNAL)
 
 ## Support
 
