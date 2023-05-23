@@ -338,6 +338,28 @@ Since the workflow was causing a systemwide disruption we immediately held all o
 
 DUNE has also created a a global glideinWMS pool similar to the CMS Global Pool that is intended to serve as a single point through which multiple job submission systems (e.g. HTCondor schedulers at sites outside of Fermilab) can have access to the same resources. Jobs using the global pool still run in the exactly the same way as those that don't. We plan to move more and more work over to the global pool in 2023 and priority access to the FermiGrid quota will eventually be given to jobs submitted to the global pool. To switch to the global pool with jobsub, it's simply a matter of adding `--global-pool dune` as an option to your submission command. The only practical difference is that your jobs will come back with IDs of the form NNNNNNN.N@dunegpschedd0X.fnal.gov instead of NNNNNNN.N@jobsub0X.fnal.gov. Again, everything else is identical, so feel free to test it out.
 
+## Making subsets of sam definitions
+
+Running across very large number of files puts you at risk of system issues.  It is often much nicer to run over several smaller subsets.
+Many official samweb definitions are large data collections defined only by their properties and not really suitable for a single job.
+
+There are two ways of reducing their size.
+
+You can create new dataset definitions; say `mydataset` has 10000 entries and you want to split it on to groups of 2000:
+
+```bash
+samweb create-definition $USER-mydataset-part0 “defname:mydataset limit 2000 offset 0”
+samweb create-definition $USER-mydataset-part1 “defname:mydataset limit 2000 offset 1000"
+samweb create-definition $USER-mydataset-part2 “defname:mydataset limit 2000 offset 2000”
+samweb create-definition $USER-mydataset-part3 “defname:mydataset limit 2000 offset 3000"
+samweb create-definition $USER-mydataset-part4 “defname:mydataset limit 2000 offset 4000”
+```
+
+Your name needs to be in there, unless it is already in the dataset name, but make certain you don’t miss a few at the end...
+
+Alternatively you can use the syntax `with stride 5 offset 0` to take every 5th file. (edited) 
+
+More on samweb can be found [here]({{ site.baseurl }}/sam-by-schellman).
 
 ## Verify Your Learning:
 
