@@ -50,13 +50,14 @@ The May 2023 DUNE computing training spans two days: [Indico site](https://indic
 - Amit Bashyal (ANL)
 - Aaron Higuera (Rice University)
 - Pengfei Ding (FNAL)
+- Lino Gerlach (BNL)
+- Nilay Bostan (University of Iowa)
 
 ## Support
 
 There will be live documents linked from [Indico][indico-event-link] for each [Zoom][zoom-link] session. You can write questions there, anonymously or not, and experts will reply. The chat on Zoom can quickly saturate so this is a more convenient solution and proved very successful at the previous training. We will collect all questions and release a Q&A after the event.
 
 You can join DUNE's Slack: `dunescience.slack.com`. We created a special channel `computing_training_basics` for technical support, join [here][slack-join-link].
-
 
 [indico-event-link]: https://indico.fnal.gov/event/59762/
 [slack-join-link]: https://dunescience.slack.com/
