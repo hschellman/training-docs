@@ -43,13 +43,14 @@ The May 2023 DUNE computing training spans two days: [Indico site](https://indic
 **Lecturers (in order of appearance in the schedule):**
 - Michael Kirby (FNAL): storage spaces
 - Steven Timm (FNAL): data management 
-- Tom Junk (FNAL): LArSoft
+- Tom Junk (FNAL): art and LArSoft
 - Kenneth Herner (FNAL): grid and batch job submission
 
 **Mentors**
 - Amit Bashyal (ANL)
 - Aaron Higuera (Rice University)
 - Pengfei Ding (FNAL)
+- Barnali Chowdury (ANL)
 - Lino Gerlach (BNL)
 - Nilay Bostan (University of Iowa)
 

@@ -26,7 +26,7 @@ keypoints:
 
 ## Requirements
 
-You must be on the DUNE Collaboration member list and have a valid FNAL or CERN account. See the [Indico Requirement page](https://indico.fnal.gov/event/54191/page/2930-requirements) for more information. Windows users are invited to review the [Putty Setup page]({{ site.baseurl }}/putty.html).
+You must be on the DUNE Collaboration member list and have a valid FNAL or CERN account. See the [Indico Requirement page][indico-event-requirements] for more information. Windows users are invited to review the [Putty Setup page]({{ site.baseurl }}/putty.html).
 
 
 > ## Note
@@ -329,7 +329,7 @@ voms-proxy-info >> /dune/app/users/${USER}/my_first_login.txt
 {: .language-bash}
 
 > ## Issues
-> If you have issues here, please refer to the [Indico event page](https://indico.fnal.gov/event/54191/) to get support. Please mention in your message it is the Step 6 of the setup. Thanks!
+> If you have issues here, please refer to the [Indico event page][indico-event-page] to get support. Please mention in your message it is the Step 6 of the setup. Thanks!
 {: .challenge}
 
 > ## Success
@@ -367,7 +367,7 @@ PDSPProd4_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_41094796_0_20210121
 {: .output}
 
 ### 3. Notify us
-You should be good to go, and you might revisit [Indico event page](https://indico.fnal.gov/event/54191/).
+You should be good to go, and you might revisit [Indico event page][indico-event-page].
 If however you are experiencing issues, please contact us as soon as possible. Be sure to mention "Setup on CERN machines" if that is the case, and we will do our best to assist you.
 
 > ## Success
@@ -379,21 +379,19 @@ If however you are experiencing issues, please contact us as soon as possible. B
 {: .checklist}
 
 > ## Issues
-> If you have issues here, please refer to the [Indico event page](https://indico.fnal.gov/event/54191/) to get support. Please note that you are on a CERN machine in your message. Thanks!
+> If you have issues here, please refer to the [Indico event page][indico-event-page] to get support. Please note that you are on a CERN machine in your message. Thanks!
 {: .discussion}
 
 ### Useful Links
    
-The [DUNE FAQ][dunefaq] in GitHub
+The [DUNE FAQ][dunefaq] on GitHub.
 
-The January 2021 DUNE training setup tutorial in the [DUNE Wiki][dune-setup-jan2021]
-
-[May 2021 DUNE Computing training][dune-training-may2021]
-
-[Wiki page][dune-wiki-interactive-resources] on DUNE's interactive computing resources, including tips on using Kerberos and VNC
+[Wiki page][dune-wiki-interactive-resources] on DUNE's interactive computing resources, including tips on using Kerberos and VNC.
 
 {%include links.md%} 
 
+[indico-event-page]: https://indico.fnal.gov/event/59762/
+[indico-event-requirements]: https://indico.fnal.gov/event/59762/page/3229-requirements
 [dune-collaboration]: http://collaboration.dunescience.org/
 [computing-account-request-form]: https://fermi.servicenowservices.com/com.glideapp.servicecatalog_cat_item_view.do?v=1&sysparm_id=d361073881218500bea3634b5c987c4c&sysparm_link_parent=a5a8218af15014008638c2db58a72314&sysparm_catalog=e0d08b13c3330100c8b837659bba8fb4&sysparm_catalog_view=catalog_Service_Catalog 
 [get-connected-user-access]: https://get-connected.fnal.gov/users/access/ 
