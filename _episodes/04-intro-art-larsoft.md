@@ -1,6 +1,6 @@
 ---
 title: Introduction to art and LArSoft
-teaching: 30
+teaching: 95
 exercises: 0
 questions:
 - Why do we need a complicated software framework? Can't I just write standalone code?
@@ -15,27 +15,20 @@ keypoints:
 
 #### Session Video
 
-This session will be captured on video a placed here after the workshop for asynchronous study.
-<!-- The session was video captured for your asynchronous review. -->
-The video from the full two day training in May 2022 is provided [here](https://www.youtube.com/embed/a2QXS2hCT-I) as a reference.
-
-<!--
-<center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/a2QXS2hCT-I" title="DUNE Computing Tutorial May 2022 Introduction to art and LArSoft" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center>
--->
+The session will be captured on video a placed here after the workshop for asynchronous study.
 
 #### Live Notes
 
 Participants are encouraged to monitor and utilize the [Livedoc for May. 2023](https://docs.google.com/document/d/19XMQqQ0YV2AtR5OdJJkXoDkuRLWv30BnHY9C5N92uYs/edit?usp=sharing) to ask questions and learn.  For reference, the [Livedoc from Jan. 2023](https://docs.google.com/document/d/1sgRQPQn1OCMEUHAk28bTPhZoySdT5NUSDnW07aL-iQU/edit?usp=sharing) is provided.
 
+<!--
 #### Temporary Instructor Note: 
 
 The May 2023 version of the DUNE Software and Computing training was imported from the May 2022 version because it was a two day event, similar to this one, see [04-intro-art-larsoft.md (May 2022)](https://github.com/DUNE/computing-training-basics/blob/gh-pages/_episodes/04-intro-art-larsoft.md) for reference.
 
 This lesson (06-intro-art-larsoft.md) was imported from the [Jan. 2023 lesson](https://github.com/DUNE/computing-training-basics-short/blob/gh-pages/_episodes/04-intro-art-larsoft.md) which was a one half day version of the training.
 
-This lesson includes collapsable quiz blocks which are encouraged, a blank quiz question block included at the end of the page.
+This lesson includes collapsable quiz blocks which are encouraged, a blank quiz question block included at the end of the page. -->
 
 The official timetable for this training event is on the [Indico site](https://indico.fnal.gov/event/59762/timetable/#20230524).
 

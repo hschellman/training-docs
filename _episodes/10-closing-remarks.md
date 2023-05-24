@@ -1,6 +1,6 @@
 ---
 title: Closing Remarks
-teaching: 15
+teaching: 10
 exercises: 0
 questions:
 - Are you fortified with enough information to start your event analysis?
@@ -12,13 +12,14 @@ keypoints:
 
 # Closing Remarks
 
+<!--
 ## Video Session
 
 The session will be captured on video a placed here after the workshop for asynchronous study.
 
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hdjR4M6B8FM" title="DUNE Computing Tutorial May 2022 Closing Remarks" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center>
+</center>-->
 
 ## Two Days of Training
 

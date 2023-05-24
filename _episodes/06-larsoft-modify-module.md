@@ -1,6 +1,6 @@
 ---
 title: Expert in the Room - LArSoft How to modify a module
-teaching: 60
+teaching: 15
 exercises: 0
 questions:
 - How do I check out, modify, and build DUNE code?
@@ -22,14 +22,13 @@ keypoints:
 - mrb uses git and cmake, though aspects of both are exposed to the user.
 ---
 
-## Video Session
+#### Session Video
 
-<!--The session will be captured on video a placed here after the workshop for asynchronous study.-->
-The May 2022 session was captured for your review and will be replaced with the May 2023 version.
+The session will be captured on video a placed here after the workshop for asynchronous study.
 
-<center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/E1I9V4sdzHk" title="DUNE Computing Tutorial May 2022 Expert in the Room, LArSoft" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center>
+#### Live Notes
+
+Participants are encouraged to monitor and utilize the [Livedoc for May. 2023](https://docs.google.com/document/d/19XMQqQ0YV2AtR5OdJJkXoDkuRLWv30BnHY9C5N92uYs/edit?usp=sharing) to ask questions and learn.  For reference, the [Livedoc from Jan. 2023](https://docs.google.com/document/d/1sgRQPQn1OCMEUHAk28bTPhZoySdT5NUSDnW07aL-iQU/edit?usp=sharing) is provided.
 
 ## Set up your environment
 

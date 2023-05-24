@@ -1,6 +1,6 @@
 ---
 title: Storage Spaces
-teaching: 50
+teaching: 45
 exercises: 0
 questions:
 - What are the types and roles of DUNE's data volumes? 
@@ -17,23 +17,16 @@ keypoints:
 - The tool suites idfh and XRootD allow for accessing data with appropriate transfer method and in a scalable way.
 ---
 
-## Session Video
+
+#### Session Video
 
 The session will be captured on video a placed here after the workshop for asynchronous study.
 
-<!--- The session was video captured for your asynchronous review. The video from the full two day training in May 2022 is provided here as a reference.--->
+#### Live Notes
 
-<!---
-<center>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lhw4dZv8Yeo" title="DUNE Computing Tutorial May 2022 Storage Systems" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</center>
---->
+Participants are encouraged to monitor and utilize the [Livedoc for May. 2023](https://docs.google.com/document/d/19XMQqQ0YV2AtR5OdJJkXoDkuRLWv30BnHY9C5N92uYs/edit?usp=sharing) to ask questions and learn.  For reference, the [Livedoc from Jan. 2023](https://docs.google.com/document/d/1sgRQPQn1OCMEUHAk28bTPhZoySdT5NUSDnW07aL-iQU/edit?usp=sharing) is provided.
 
-## Live Notes
-
-[Livedoc from Jan. 2023](https://docs.google.com/document/d/1sgRQPQn1OCMEUHAk28bTPhZoySdT5NUSDnW07aL-iQU/edit)
-
-Temporary Note: This lesson (02-storage-spaces.md) was imported from the [Jan. 2023 lesson](https://github.com/DUNE/computing-training-basics-short/tree/gh-pages/_episodes) which was a shortened version of the training. The May 2022 training event was a two day event, see [02-storage-spaces.md (May 2022)](https://github.com/DUNE/computing-training-basics/blob/gh-pages/_episodes/02-storage-spaces.md) for reference. Quiz blocks were added.
+<!-- Temporary Note: This lesson (02-storage-spaces.md) was imported from the [Jan. 2023 lesson](https://github.com/DUNE/computing-training-basics-short/tree/gh-pages/_episodes) which was a shortened version of the training. The May 2022 training event was a two day event, see [02-storage-spaces.md (May 2022)](https://github.com/DUNE/computing-training-basics/blob/gh-pages/_episodes/02-storage-spaces.md) for reference. Quiz blocks were added. -->
 
 ## Introduction
 There are three types of storage volumes that you will encounter at Fermilab: local hard drives, network attached storage, and large-scale, distributed storage. Each has it's own advantages and limitations, and knowing which one to use when isn't all straightforward or obvious. But with some amount of foresight, you can avoid some of the common pitfalls that have caught out other users.

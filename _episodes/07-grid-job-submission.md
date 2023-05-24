@@ -1,6 +1,6 @@
 ---
 title: Grid Job Submission and Common Errors
-teaching: 30
+teaching: 65
 exercises: 0
 questions:
 - How to submit grid jobs?
