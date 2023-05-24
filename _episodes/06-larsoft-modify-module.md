@@ -224,8 +224,7 @@ samweb get-file-access-url --schema=root PDSPProd4a_protoDUNE_sp_reco_stage1_p1G
 which should print the following URL:
 
 ~~~
-root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4a/18/
-80/06/50/PDSPProd4a_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_18800650_2_20210414T012053Z.root
+root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune-sp/full-reconstructed/2021/mc/out1/PDSPProd4a/18/80/06/50/PDSPProd4a_protoDUNE_sp_reco_stage1_p1GeV_35ms_sce_datadriven_18800650_2_20210414T012053Z.root
 ~~~
   
 Now run the program with the input file accessed by that URL:
