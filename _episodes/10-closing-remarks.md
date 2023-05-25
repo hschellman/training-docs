@@ -37,7 +37,7 @@ We are thankful for the instructor's hard work, and for the numerous participant
 
 ##  Survey time!
 
-Please give us feedback on this training by filling out our [S U R V E Y](https://forms.gle/RqsxHWjYFxmguFUW7). Entries to the survey anonymous, any impressions, praise, critiques and suggestions are appreciated.
+Please give us feedback on this training by filling out our [S U R V E Y](https://forms.gle/qPW8t97EWvbxQtKGA). Entries to the survey are anonymous, any impressions, praise, critiques and suggestions are appreciated.
 
 ##  Next Steps
 
@@ -54,6 +54,6 @@ You made some excellent connections with computing experts and invite your conti
 A DUNE [Slack channel][dune-may2022-slack] will remain available and we encourage your activity in the dialog.
 
 
-[dune-may2022-slack]: https://dunescience.slack.com/archives/C03CMH6TUCS
+[dune-slack]: https://dunescience.slack.com/archives/C02TJDHUQPR
 
 {%include links.md%} 
