@@ -53,6 +53,7 @@ The past few months have seen significant changes in how DUNE (as well as other 
 * It is no longer possible to write to certain directories from grid jobs as analysis users, namely the persistent area. Read access to the full /pnfs tree is still available. Bulk copies of job outputs from scratch to persistent have to be done outside of grid jobs.
 * Multiple `--tar_file_name` options are now supported (and will be unpacked) if you need things in multiple tarballs.
 * The `-f` behavior with and without dropbox:// in front is slightly different from legacy jobsub; see the [documentation](https://fifewiki.fnal.gov/wiki/Differences_between_jobsub_lite_and_legacy_jobsub_client/server#Bug_with_-f_dropbox:.2F.2F.2Fa.2Fb.2Fc.tar) for details.
+* jobsub_lite will probably not work directly from lxplus at the moment, though work is underway to make it possible to submit batch jobs to non-FNAL schedulers.
 
 ## Submit a job
 
@@ -124,7 +125,7 @@ Submitting job(s)
 
 Now, let's look at some of these options in more detail.
 
-* `-M` sends mail after the job completes whether it was successful for not. The default is email only on error. To disable all emails, use `--mail_never`.  
+* `--mail_always` sends mail after the job completes whether it was successful for not. To disable all emails, use `--mail_never`.  
 * `-N` controls the number of identical jobs submitted with each cluster. Also called the process ID, the number ranges from 0 to N-1 and forms the part of the job ID number after the period, e.g. 12345678.N.  
 * `--memory, --disk, --cpu, --expected-lifetime` request this much memory, disk, number of cpus, and max run time.  Jobs that exceed the requested amounts will go into a held state. Defaults are 2000 MB, 10 GB, 1, and 8h, respectively. Note that jobs are charged against the DUNE FermiGrid quota according to the greater of memory/2000 MB and number of CPUs, with fractional values possible. For example, a 3000 MB request is charged 1.5 "slots", and 4000 MB would be charged 2. You are charged for the amount **requested**, not what is actually used, so you should not request any more than you actually need (your jobs will also take longer to start the more resources you request). Note also that jobs that run offsite do NOT count against the FermiGrid quota. **In general, aim for memory and run time requests that will cover 90-95% of your jobs and use the [autorelease feature][job-autorelease] to deal with the remainder**.  
 * `-l` (or `--lines=`) allows you to pass additional arbitrary HTCondor-style `classad` variables into the job. In this case, we're specifying exactly what `Singularity` image we want to use in the job. It will be automatically set up for us when the job starts. Any other valid HTCondor `classad` is possible. In practice you don't have to do much beyond the `Singularity` image. Here, pay particular attention to the quotes and backslashes.  
@@ -164,7 +165,7 @@ if you get tired of typing `-G dune` all the time, you can set the JOBSUB_GROUP 
 
 ## Submit a job using the tarball containing custom code
 
-First off, a very important point: for running analysis jobs, **you may not actually need to pass an input tarball**, especially if you are just using code from the base release and you don't actually modify any of it.
+First off, a very important point: for running analysis jobs, **you may not actually need to pass an input tarball**, especially if you are just using code from the base release and you don't actually modify any of it. In that case, it is much more efficient to use everything from the release and refrain from using a tarball.
 All you need to do is set up any required software from CVMFS (e.g. dunetpc and/or protoduneana), and you are ready to go.
 If you're just modifying a fcl file, for example, but no code, it's actually more efficient to copy just the fcl(s) your changing to the scratch directory within the job, and edit them as part of your job script (copies of a fcl file in the current working directory have priority over others by default).
 
@@ -180,7 +181,7 @@ First, we should make a tarball. Here is what we can do (assuming you are starti
 
 ```bash
 cp /dune/app/users/kherner/setupmay2023tutorial-grid.sh /dune/app/users/${USER}/
-cp /dune/app/users/kherner/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid /dune/app/users/${USER}/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid
+cp /dune/app/users/kherner/may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof/setup-grid /dune/app/users/${USER}/may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof/setup-grid
 ```
 
 Before we continue, let's examine these files a bit. We will source the first one in our job script, and it will set up the environment for us.
@@ -209,38 +210,38 @@ Now let's look at the difference between the setup-grid script and the plain set
 Assuming you are currently in the /dune/app/users/username directory:
 
 ```bash
-diff may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof/setup-grid
+diff may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof/setup may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof/setup-grid
 ```
 
 ~~~
 < setenv MRB_TOP "/dune/app/users/<username>/may2023tutorial"
 < setenv MRB_TOP_BUILD "/dune/app/users/<username>/may2023tutorial"
 < setenv MRB_SOURCE "/dune/app/users/<username>/may2023tutorial/srcs"
-< setenv MRB_INSTALL "/dune/app/users/<username>/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof"
+< setenv MRB_INSTALL "/dune/app/users/<username>/may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof"
 ---
 > setenv MRB_TOP "${INPUT_TAR_DIR_LOCAL}/may2023tutorial"
 > setenv MRB_TOP_BUILD "${INPUT_TAR_DIR_LOCAL}/may2023tutorial"
 > setenv MRB_SOURCE "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/srcs"
-> setenv MRB_INSTALL "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof"
+> setenv MRB_INSTALL "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof"
 ~~~
 {: .output}
 
 As you can see, we have switched from the hard-coded directories to directories defined by environment variables; the `INPUT_TAR_DIR_LOCAL` variable will be set for us (see below).
 Now, let's actually create our tar file. Again assuming you are in `/dune/app/users/kherner/may2023tutorial/`:
 ```bash
-tar --exclude '.git' -czf may2023tutorial.tar.gz may2023tutorial/localProducts_larsoft_v09_63_00_e20_prof may2023tutorial/work setupmay2023tutorial-grid.sh
+tar --exclude '.git' -czf may2023tutorial.tar.gz may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof may2023tutorial/work setupmay2023tutorial-grid.sh
 ```
 Note how we have excluded the contents of ".git" directories in the various packages, since we don't need any of that in our jobs. It turns out that the .git directory can sometimes account for a substantial fraction of a package's size on disk! 
 
 Then submit another job (in the following we keep the same submit file as above):
 
 ```bash
-jobsub_submit -G dune -M -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h --cpu=1 --resource-provides=usage_model=DEDICATED,OPPORTUNISTIC,OFFSITE --tar_file_name=dropbox:///dune/app/users/<username>/may2023tutorial.tar.gz -l '+SingularityImage=\"/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest\"' --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105&&TARGET.HAS_CVMFS_fifeuser1_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser2_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser3_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser4_opensciencegrid_org==true)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/run_may2023tutorial.sh
+jobsub_submit -G dune --mail_always -N 1 --memory=2500MB --disk=2GB --expected-lifetime=3h --cpu=1 --tar_file_name=dropbox:///dune/app/users/<username>/may2023tutorial.tar.gz --singularity-image /cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105&&TARGET.HAS_CVMFS_fifeuser1_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser2_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser3_opensciencegrid_org==true&&TARGET.HAS_CVMFS_fifeuser4_opensciencegrid_org==true)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/run_may2023tutorial.sh
 ```
 
 You'll see this is very similar to the previous case, but there are some new options: 
 
-* `--tar_file_name=dropbox://` automatically **copies and untars** the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job.  The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file, so if you have a tar file named e.g. may2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/may2023tutorial.
+* `--tar_file_name=dropbox://` automatically **copies and untars** the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job.  The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file_without_extension, so if you have a tar file named e.g. may2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/may2023tutorial.
 * Notice that the `--append_condor_requirements` line is longer now, because we also check for the fifeuser[1-4]. opensciencegrid.org CVMFS repositories.  
 
 Now, there's a very small gotcha when using the RCDS, and that is when your job runs, the files in the unzipped tarball are actually placed in your work area as symlinks from the CVMFS version of the file (which is what you want since the whole point is not to have N different copies of everything).
