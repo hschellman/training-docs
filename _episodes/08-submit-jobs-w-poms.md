@@ -24,7 +24,7 @@ If you haven't used POMS in a while (several days), or it is your first time, yo
 
 ```bash
  . /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
- setup_fife_utils
+ setup fife_utils
 ```
 
 Then simply run the upload command:
