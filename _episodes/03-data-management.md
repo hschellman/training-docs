@@ -295,78 +295,6 @@ More information on CVMFS is available [here](https://wiki.dunescience.org/wiki/
 
 > ## Question 01
 >
-> Which volumes are directly accessible (POSIX) from grid worker nodes?
-> <ol type="A">
-> <li>/dune/data</li>
-> <li>DUNE CVMFS repository</li>
-> <li>/pnfs/dune/scratch</li>
-> <li>/pnfs/dune/persistent</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is B - DUNE CVMFS repository.
-> > {: .output}
-> > Comment here 
-> {: .solution}
-{: .challenge}
-
-> ## Question 02
->
-> Which data volume is the best location for the output of an analysis-user grid job?
-> <ol type="A">
-> <li>dCache scratch (/pnfs/dune/scratch/users/${USER}/)</li>
-> <li>dCache persistent (/pnfs/dune/persistent/users/${USER}/)</li>
-> <li>Enstore tape (/pnfs/dune/tape_backed/users/${USER}/)</li>
-> <li>user’s home area (`~${USER}`)</li>
-> <li>NFS data volume (/dune/data or /dune/app)</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is A, dCache scratch (/pnfs/dune/scratch/users/${USER}/).
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 03
->
-> You have written a shell script that sets up your environment for both DUNE and another FNAL experiment. What (missing text)?
-> <ol type="A">
-> <li>DUNE CVMFS repository</li>
-> <li>/pnfs/dune/scratch/</li>
-> <li>/dune/app/</li>
-> <li>Your GPVM home area</li>
-> <li>Your laptop home area</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is D - Your GPVM home area.
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 04
->
-> What is the preferred way of reading a file interactively?
-> <ol type="A">
-> <li>Read it across the nfs mount on the GPVM</li>
-> <li>Download the whole file to /tmp with xrdcp</li>
-> <li>Open it for streaming via xrootd</li>
-> <li>None of the above</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is C - Open it for streaming via xrootd.
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 05
->
 > What is file metadata?
 > <ol type="A">
 > <li>Information about how and when a file was made</li>
@@ -383,7 +311,7 @@ More information on CVMFS is available [here](https://wiki.dunescience.org/wiki/
 > {: .solution}
 {: .challenge}
 
-> ## Question 06
+> ## Question 02
 >
 > How do we determine a DUNE data file location?
 > <ol type="A">

@@ -297,44 +297,6 @@ df -h
 > {: .solution}
 {: .challenge}
 
-> ## Question 05
->
-> What is file metadata?
-> <ol type="A">
-> <li>Information about how and when a file was made</li>
-> <li>Information about what type of data the file contains</li>
-> <li>Conditions such as liquid argon temperature while the file was being written</li>
-> <li>Both A and B</li>
-> <li>All of the above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is D - Both A and B.
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-> ## Question 06
->
-> How do we determine a DUNE data file location?
-> <ol type="A">
-> <li>Do ls -R on /pnfs/dune and grep</li>
-> <li>Use samweb locate-file (file name)</li>
-> <li>Ask the data management group</li>
-> <li>None of the Above</li>
-> </ol>
->
-> > ## Answer
-> > The correct answer is B - use samweb locate-file (file name).
-> > {: .output}
-> > Comment here
-> {: .solution}
-{: .challenge}
-
-
-
-
 ## Useful links to bookmark
 
 * [ifdh commands (redmine)](https://cdcvs.fnal.gov/redmine/projects/ifdhc/wiki/Ifdh_commands)
