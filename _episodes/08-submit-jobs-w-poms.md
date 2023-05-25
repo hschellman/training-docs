@@ -114,6 +114,12 @@ Note that **Datasets do not have to be actual SAM datasets** in POMS; they can r
 **Important note about this campaign**: since it is an example I've sort of hard-coded the path to particular inputs here (the global.inputfile value) to illustrate how you can use the value from the list. In general you should NOT hard-code inputs!
 **Note 2 about using list of SAM datasets:** if the values in your list consist of all or part of an actual dataset name, and you want to run over a dataset, you have to use the `--dataset` option in jobsub_submit to get it to understand that you're really using a dataset. The practical way to do that is to also have e.g. `-Osubmit.dataset=', '%(dataset)s']` as an additional override. See the draining dataset example below. You'd do the same thing if you had a lsist of datasets.
 
+### Aside: a word on n_files_per_job and SAM consumer limits
+
+It is possible to use the `n_files_per_job` option (in some of the examples) as a way to automatically calculate a number of jobs to submit to process your dataset (at least for workflows where you have an input dataset). In general unless your workflow absolutely cannot handle more than one input file per job (or it takes a very long time, say 24h, to process a single file), you should expect to process multiple input files. Only processing one input file per job is often extremely inefficient (you have to pay the job startup overhead for every single file), puts more load on all the various servers, and can often lead to very small output files, which are not great for dCache. By using 
+n_files_per_job the system will compute the number of parallel jobs for you (basically N files in dataset / n_files_per_job with some rounding). Note that n_files_per_job should generally be driven by the desired job length (generally several hours is a good aim) and/or the desired output file size (generally aim for ~ 1 GB or greater output files sizes, subject to reasonable constraints on job run time). When doing that, be sure to set the SAM consumer limit on your job to be at least n_files_per_job, and it's usually a good idea to set it a bit higher so that if you have any job failures early on, other jobs can pick up the slack. For example if you did n_files_per_job of 3, maybe you'd set the SAM consumer limit to be e.g. 5 (again subject to run time and output file size concerns).
+
+
 ## Draining dataset
 
 If you have very large datasets, or datasets that change over time (such as in keepup processing), you may want to submit only a part of it at once. Of course then you need to keep trakc of what has already been submitted from the main dataset each time. Fortunately POMS provides such functionality with the draining and drainingn dataset types. Our example uses the latter, which will carve out a dataset of at most n files at a time from the larger dataset, keeping track of which files have already been submitted to ensure no duplication between different submissions. We will use the same MC example dataset as we have been using but will now submit it in several pieces.
@@ -126,7 +132,7 @@ There is an important difference with this campaign relative to the previous one
 
 These are just some basic examples to get you started that cover ~90% of standard use cases. Many other setups are possible! Look at the [POMS documentation](https://cdcvs.fnal.gov/redmine/projects/prod_mgmt_db/wiki/POMS_User_Documentation) for some other interesting cases, and reach out to the experts for guidance. We want to help! Here we'll just point out a couple of other cases:
 
-"multiparam" type (interating over all combinations of multiple lists): https://cdcvs.fnal.gov/redmine/projects/prod_mgmt_db/wiki/POMS_User_Documentation#Campaign-Stage-Datasets-and-Split-types
+"multiparam" type (interating over all combinations of multiple lists): [https://cdcvs.fnal.gov/redmine/projects/prod_mgmt_db/wiki/POMS_User_Documentation#Campaign-Stage-Datasets-and-Split-types](https://cdcvs.fnal.gov/redmine/projects/prod_mgmt_db/wiki/POMS_User_Documentation#Campaign-Stage-Datasets-and-Split-types)
 
 {%include links.md%} 
 
