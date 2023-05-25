@@ -59,7 +59,7 @@ The past few months have seen significant changes in how DUNE (as well as other 
 
 **Note that job submission requires FNAL account or access to another HTCondor submission point conneected to the Fermilab pool (currently BNL or RAL).
 
-First, log in to a `dunegpvm` machine . Then you will need to set up the job submission tools (`jobsub`). If you set up `dunetpc` it will be included, but if not, you need to do
+First, log in to a `dunegpvm` machine . Then you will need to set up the job submission tools (`jobsub`). If you set up `dunesw` it will be included, but if not, you need to do
 
 ```bash
 mkdir -p /pnfs/dune/scratch/users/${USER}/DUNE_tutorial_may2023 # if you have not done this before
