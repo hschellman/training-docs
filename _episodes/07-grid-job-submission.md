@@ -70,7 +70,6 @@ Having done that, let us submit a prepared script:
 ~~~
 jobsub_submit -G dune --mail_always -N 1 --memory=1000MB --disk=1GB --cpu=1 --expected-lifetime=1h  --singularity-image /cvmfs/singularity.opensciencegrid.org/fermilab/fnal-wn-sl7:latest --append_condor_requirements='(TARGET.HAS_Singularity==true&&TARGET.HAS_CVMFS_dune_opensciencegrid_org==true&&TARGET.HAS_CVMFS_larsoft_opensciencegrid_org==true&&TARGET.CVMFS_dune_opensciencegrid_org_REVISION>=1105)' -e GFAL_PLUGIN_DIR=/usr/lib64/gfal2-plugins -e GFAL_CONFIG_DIR=/etc/gfal2.d file:///dune/app/users/kherner/submission_test_singularity.sh
 ~~~
-{: .source}
 
 If all goes well you should see something like this:
 
@@ -224,7 +223,6 @@ diff may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof/setup may2023tutor
 > setenv MRB_SOURCE "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/srcs"
 > setenv MRB_INSTALL "${INPUT_TAR_DIR_LOCAL}/may2023tutorial/localProducts_larsoft_v09_72_01_e20_prof"
 ~~~
-{: .output}
 
 As you can see, we have switched from the hard-coded directories to directories defined by environment variables; the `INPUT_TAR_DIR_LOCAL` variable will be set for us (see below).
 Now, let's actually create our tar file. Again assuming you are in `/dune/app/users/kherner/may2023tutorial/`:
@@ -244,6 +242,32 @@ You'll see this is very similar to the previous case, but there are some new opt
 * `--tar_file_name=dropbox://` automatically **copies and untars** the given tarball into a directory on the worker node, accessed via the INPUT_TAR_DIR_LOCAL environment variable in the job.  The value of INPUT_TAR_DIR_LOCAL is by default $CONDOR_DIR_INPUT/name_of_tar_file_without_extension, so if you have a tar file named e.g. may2023tutorial.tar.gz, it would be $CONDOR_DIR_INPUT/may2023tutorial.
 * Notice that the `--append_condor_requirements` line is longer now, because we also check for the fifeuser[1-4]. opensciencegrid.org CVMFS repositories.  
 
+The submission output will look something like this:
+
+~~~
+Attempting to get token from https://htvaultprod.fnal.gov:8200 ... succeeded
+Storing bearer token in /tmp/bt_token_dune_Analysis_11469
+Using bearer token located at /tmp/bt_token_dune_Analysis_11469 to authenticate to RCDS
+Checking to see if uploaded file is published on RCDS
+Could not locate uploaded file on RCDS.  Will retry in 30 seconds.
+Could not locate uploaded file on RCDS.  Will retry in 30 seconds.
+Could not locate uploaded file on RCDS.  Will retry in 30 seconds.
+Found uploaded file on RCDS.
+Transferring files to web sandbox...
+Copying file:///nashome/k/kherner/.cache/jobsub_lite/js_2023_05_24_224713_9669e535-daf9-496f-8332-c6ec8a4238d9/run_may2023tutorial.sh   [DONE]  after 0s                                                                                                                       
+Copying file:///nashome/k/kherner/.cache/jobsub_lite/js_2023_05_24_224713_9669e535-daf9-496f-8332-c6ec8a4238d9/simple.cmd   [DONE]  after 0s                                                                                                                                   
+Copying file:///nashome/k/kherner/.cache/jobsub_lite/js_2023_05_24_224713_9669e535-daf9-496f-8332-c6ec8a4238d9/simple.sh   [DONE]  after 0s                                                                                                                                    
+Submitting job(s).
+1 job(s) submitted to cluster 62007523.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Use job id 62007523.0@jobsub01.fnal.gov to retrieve output
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+~~~
+
+Note that the job submission will pause while it uploads the tarball to RCDS, and then it continues normally.
+
 Now, there's a very small gotcha when using the RCDS, and that is when your job runs, the files in the unzipped tarball are actually placed in your work area as symlinks from the CVMFS version of the file (which is what you want since the whole point is not to have N different copies of everything).
 The catch is that if your job script expected to be able to edit one or more of those files within the job, it won't work because the link is to a read-only area.
 Fortunately there's a very simple trick you can do in your script before trying to edit any such files: 
@@ -253,7 +277,6 @@ cp ${INPUT_TAR_DIR_LOCAL}/file_I_want_to_edit mytmpfile  # do a cp, not mv
 rm ${INPUT_TAR_DIR_LOCAL}file_I_want_to_edit # This really just removes the link
 mv mytmpfile file_I_want_to_edit # now it's available as an editable regular file.
 ~~~
-{: .source}
 
 You certainly don't want to do this for every file, but for a handful of small text files this is perfectly acceptable and the overall benefits of copying in code via the RCDS far outweigh this small cost. 
 This can get a little complicated when trying to do it for things several directories down, so it's easiest to have such files in the top level of your tar file. 
