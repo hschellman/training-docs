@@ -375,15 +375,25 @@ You can create new dataset definitions; say `mydataset` has 10000 entries and yo
 
 ```bash
 samweb create-definition $USER-mydataset-part0 “defname:mydataset limit 2000 offset 0”
-samweb create-definition $USER-mydataset-part1 “defname:mydataset limit 2000 offset 1000"
-samweb create-definition $USER-mydataset-part2 “defname:mydataset limit 2000 offset 2000”
-samweb create-definition $USER-mydataset-part3 “defname:mydataset limit 2000 offset 3000"
-samweb create-definition $USER-mydataset-part4 “defname:mydataset limit 2000 offset 4000”
+samweb create-definition $USER-mydataset-part1 “defname:mydataset limit 2000 offset 2000"
+samweb create-definition $USER-mydataset-part2 “defname:mydataset limit 2000 offset 4000”
+samweb create-definition $USER-mydataset-part3 “defname:mydataset limit 2000 offset 6000"
+samweb create-definition $USER-mydataset-part4 “defname:mydataset limit 2000 offset 8000”
 ```
 
 Your name needs to be in there, unless it is already in the dataset name, but make certain you don’t miss a few at the end...
 
-Alternatively you can use the syntax `with stride 5 offset 0` to take every 5th file. (edited) 
+Alternatively you can use the syntax `with stride 5 offset 0` to take every 5th file:
+```bash
+samweb create-definition $USER-mydataset-part0 “defname:mydataset limit 2000 with stride 5 offset 0”
+samweb create-definition $USER-mydataset-part1 “defname:mydataset limit 2000 with stride 5 offset 1"
+samweb create-definition $USER-mydataset-part2 “defname:mydataset limit 2000 with stride 5 offset 2”
+samweb create-definition $USER-mydataset-part3 “defname:mydataset limit 2000 with stride 5 offset 3"
+samweb create-definition $USER-mydataset-part4 “defname:mydataset limit 2000 with stride 5 offset 4”
+```
+
+
+
 
 More on samweb can be found [here]({{ site.baseurl }}/sam-by-schellman).
 
