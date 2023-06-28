@@ -136,7 +136,7 @@ kdestroy
 ~~~
 {: .language-bash}
 
-After executing this command, you will have to use kinit again to get a new ticket.
+After executing this command, you will have to use kinit again to get a new ticket.  If you have tickets from a non-working kinit, be sure to use the corresponding kdestroy to remove them.  klist should return an empty list to make sure you have a clean setup before running the system-provided kinit.
 
 ## 2. ssh-in
 **What is it?** SSH stands for Secure SHell. It uses an encrypted protocol used for connecting to remote machines and it works with Kerberos tickets when configured to do so. The configuration is done in your local file in your home directory:
