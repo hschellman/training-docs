@@ -406,6 +406,6 @@ The [DUNE FAQ][dunefaq] on GitHub.
 [dune-setup-jan2021]: https://wiki.dunescience.org/wiki/DUNE_Computing/Setup_Jan2021
 [dune-training-may2021]: https://dune.github.io/computing-training-202105/
 [dune-wiki-interactive-resources]: https://wiki.dunescience.org/wiki/DUNE_Computing/DUNE_Interactive_Computing_Resources
-[anaconda-faq-kinit]: https://github.com/DUNE/FAQ/issues/22
+[anaconda_faq_kinit]: https://github.com/DUNE/FAQ/issues/22
 [dunefaq]: https://github.com/DUNE/FAQ
 
