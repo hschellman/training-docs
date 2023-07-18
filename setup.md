@@ -108,7 +108,7 @@ kinit -A -f username@FNAL.GOV
 ~~~
 {: .language-bash}
 
-Some users have reported problems with the Kerberos utilities provided by Macports and Anaconda. Macintosh users should use the system-provided Kerberos utilities -- like /usr/bin/kinit. Hint: use the command
+Some users have reported problems with the Kerberos utilities provided by Macports and Anaconda. Macintosh users should use the system-provided Kerberos utilities -- such as /usr/bin/kinit.  Use the command
 
 ~~~
 which kinit
@@ -137,6 +137,8 @@ kdestroy
 {: .language-bash}
 
 After executing this command, you will have to use kinit again to get a new ticket.  If you have tickets from a non-working kinit, be sure to use the corresponding kdestroy to remove them.  klist should return an empty list to make sure you have a clean setup before running the system-provided kinit.
+
+Some users have reported that an installation of Anaconda interferes with the use of the system kinit.  If you must use the kinit supplied with Anaconda, see [these instructions][anaconda_faq_kinit].
 
 ## 2. ssh-in
 **What is it?** SSH stands for Secure SHell. It uses an encrypted protocol used for connecting to remote machines and it works with Kerberos tickets when configured to do so. The configuration is done in your local file in your home directory:
@@ -404,5 +406,6 @@ The [DUNE FAQ][dunefaq] on GitHub.
 [dune-setup-jan2021]: https://wiki.dunescience.org/wiki/DUNE_Computing/Setup_Jan2021
 [dune-training-may2021]: https://dune.github.io/computing-training-202105/
 [dune-wiki-interactive-resources]: https://wiki.dunescience.org/wiki/DUNE_Computing/DUNE_Interactive_Computing_Resources
+[anaconda-faq-kinit]: https://github.com/DUNE/FAQ/issues/22
 [dunefaq]: https://github.com/DUNE/FAQ
 
