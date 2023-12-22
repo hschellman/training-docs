@@ -149,7 +149,7 @@ root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_backed/dunepro/protodune
 ~~~
 {: .output}
 
-**Resource**: [Using the SAM Data Catalog][sam-data-control].
+**Resources**: [Using the SAM Data Catalog][sam-data-control]. [More SAM documentation][sam-longer]
 > ## Exercise 1
 > * Use the `--location` argument to show the path of the file above on either `enstore`, `castor` or `cern-eos`.
 > * Use `get-metadata` to get SAM metadata for this file. Note that `--json` gives the output in json format.
@@ -344,4 +344,5 @@ More information on CVMFS is available [here](https://wiki.dunescience.org/wiki/
 [dune-data-fnal]: https://dune-data.fnal.gov/
 [dune-data-fnal-how-works]: https://dune-data.fnal.gov/tutorial/howitworks.pdf
 [sam-data-control]: https://wiki.dunescience.org/wiki/Using_the_SAM_Data_Catalog_to_find_data
+[sam-longer]: https://dune.github.io/computing-basics/sam-by-schellman/index.html
 
