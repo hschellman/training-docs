@@ -65,7 +65,7 @@ PROTODUNEANA_VERSION=v09_72_01d00
 QUALS=e20:prof
 DIRECTORY=may2023tutorial
 USERNAME=`whoami`
-export WORKDIR=/dune/app/users/${USERNAME}
+export WORKDIR=/exp/dune/app/users/${USERNAME}
 if [ ! -d "$WORKDIR" ]; then
   export WORKDIR=`echo ~`
 fi
@@ -96,7 +96,7 @@ DIRECTORY=may2023tutorial
 USERNAME=`whoami`
 
 source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
-export WORKDIR=/dune/app/users/${USERNAME}
+export WORKDIR=/exp/dune/app/users/${USERNAME}
 if [ ! -d "$WORKDIR" ]; then
   export WORKDIR=`echo ~`
 fi
@@ -236,7 +236,7 @@ lar -c analyzer_job.fcl root://fndca1.fnal.gov:1094/pnfs/fnal.gov/usr/dune/tape_
 CERN Users without access to Fermilab's `dCache`: -- example input files for this tutorial have been copied to `/afs/cern.ch/work/t/tjunk/public/may2023tutorialfiles/`.
 
 After running the program, you should have an output file `tutorial_hist.root`.  Note -- please do not
-store large rootfiles in `/dune/app`!  The disk is rather small, and we'd like to
+store large rootfiles in `/exp/dune/app`!  The disk is rather small, and we'd like to
 save it for applications, not data.  But this file ought to be quite small.
 Open it in root
 
@@ -559,7 +559,7 @@ The linker has fewer ways to fail than the compiler.  Usually the error message 
 
 #### Out of disk quota
 
-Do not store data files on the app disk!   Sometimes the app disk fills up nonetheless, and there is a quota of 100 GB per user on it.  If you need more than that for several builds, you have some options.  1)  Use `/dune/data/users/<username>` (make the directory if it does not yet exist).  Also `/dune/data2/users/<username>` is available.  You have a 200 GB quota on each of these volumes.  They are slower than the app disk and can get even slower if many users are accessing them simultaneously or transferring large amounts of data to or ofrm them.  3)  Clean up some space on app.  You may want to tar up an old release and store the tarball on the data volume or in `dCache` for later use.
+Do not store data files on the app disk!   Sometimes the app disk fills up nonetheless, and there is a quota of 100 GB per user on it.  If you need more than that for several builds, you have some options.  1)  Use `/exp/dune/data/users/<username>`.  You have a 400 GB quota on this volume.  They are slower than the app disk and can get even slower if many users are accessing them simultaneously or transferring large amounts of data to or ofrm them.  3)  Clean up some space on app.  You may want to tar up an old release and store the tarball on the data volume or in `dCache` for later use.
 
 #### Runtime errors
 
