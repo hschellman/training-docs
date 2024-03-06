@@ -407,8 +407,8 @@ Try it yourself! The workflow for ProtoDUNE-SP MC is given in the [Simulation Ta
 
 ~~~
 export USER=`whoami`
- mkdir -p /dune/data/users/$USER/tutorialtest
- cd /dune/data/users/$USER/tutorialtest
+ mkdir -p /exp/dune/data/users/$USER/tutorialtest
+ cd /exp/dune/data/users/$USER/tutorialtest
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
  setup dunesw v09_72_01d00 -q e20:prof
  TMPDIR=/tmp lar -n 1 -c mcc12_gen_protoDune_beam_cosmics_p1GeV.fcl -o gen.root
@@ -479,7 +479,7 @@ There are bi-weekly LArSoft coordination meetings [https://indico.fnal.gov/categ
 
 ### Useful tip: check out an inspection copy of larsoft
 
-A good old-fashioned `grep -r` or a find command can be effective if you are looking for an example of how to call something but I do not know where such an example might live. The copies of LArSoft source in CVMFS lack the CMakeLists.txt files and if that's what you're looking for to find examples, it's good to have a copy checked out. Here's a script that checks out all the LArSoft source and DUNE LArSoft code but does not compile it. Warning: it deletes a directory called "inspect" in your app area. Make sure `/dune/app/users/<yourusername>` exists first:
+A good old-fashioned `grep -r` or a find command can be effective if you are looking for an example of how to call something but I do not know where such an example might live. The copies of LArSoft source in CVMFS lack the CMakeLists.txt files and if that's what you're looking for to find examples, it's good to have a copy checked out. Here's a script that checks out all the LArSoft source and DUNE LArSoft code but does not compile it. Warning: it deletes a directory called "inspect" in your app area. Make sure `/exp/dune/app/users/<yourusername>` exists first:
 
 ~~~
  #!/bin/bash
@@ -487,13 +487,13 @@ A good old-fashioned `grep -r` or a find command can be effective if you are loo
  LARSOFT_VERSION=v09_72_01
  COMPILER=e20
  source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
- cd /dune/app/users/${USERNAME}
+ cd /exp/dune/app/users/${USERNAME}
  rm -rf inspect
  mkdir inspect
  cd inspect
  setup larsoft ${LARSOFT_VERSION} -q debug:${COMPILER}
  mrb newDev
- source /dune/app/users/${USERNAME}/inspect/localProducts_larsoft_${LARSOFT_VERSION}_debug_${COMPILER}/setup
+ source /exp/dune/app/users/${USERNAME}/inspect/localProducts_larsoft_${LARSOFT_VERSION}_debug_${COMPILER}/setup
  cd srcs
  mrb g larsoft_suite
  mrb g larsoftobj_suite
