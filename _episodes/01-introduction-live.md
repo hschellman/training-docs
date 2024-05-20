@@ -1,15 +1,15 @@
 ---
-title: Online Tutorial Welcome and Introduction 
+title: Workshop Welcome and Introduction 
 teaching: 5
 exercises: 0
 questions:
-- What should I expect in participating in this Tutorial? 
+- What should I expect in participating in this workshop?
 objectives:  
 - Introduce instructors and mentors.
-- Provide overview of the modules
+- Provide overview of the three schedule.
 - Spotlight helpful network provided by Slack channel.
 keypoints:
-- This tutorial is brought to you by the DUNE Computing Consortium.
+- This workshop is brought to you by the DUNE Computing Consortium.
 - The goals are to give you the computing basis to work on DUNE.
 ---
 ## DUNE Computing Consortium
@@ -20,7 +20,7 @@ Selected consortia members coordinate DUNE computing activities to new members t
 DUNE Computing Consortium Coordinator: Heidi Schellman (Oregon State University)
 
 <!--
-## A video from 2022 of a Welcome Session for a live event
+## Welcome Session Video
 
 The session will be captured on video a placed here after the workshop for asynchronous study.
 A similar session from May 2022 was captured for your asynchronous review.
@@ -40,7 +40,7 @@ The May 2023 DUNE computing training spanned two days: [Indico site](https://ind
 - Heidi Schellman (Oregon State University /FNAL)
 - David DeMuth (Valley City State University)
 
-**Module Authors (in order of appearance in the schedule):**
+**Lecturers (in order of appearance in the schedule):**
 - Michael Kirby (FNAL): storage spaces
 - Steven Timm (FNAL): data management 
 - Tom Junk (FNAL): art and LArSoft
@@ -56,9 +56,7 @@ The May 2023 DUNE computing training spanned two days: [Indico site](https://ind
 
 ## Support
 
-<!--
 There will be live documents linked from [Indico][indico-event-link] for each [Zoom][zoom-link] session. You can write questions there, anonymously or not, and experts will reply. The chat on Zoom can quickly saturate so this is a more convenient solution and proved very successful at the previous training. We will collect all questions and release a Q&A after the event.
--->
 
 You can join DUNE's Slack: `dunescience.slack.com`. We created a special channel `computing_training_basics` for technical support, join [here][slack-join-link].
 

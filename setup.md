@@ -214,12 +214,39 @@ Once you identify environment variables that might conflict with your DUNE work,
 
 A simpler solution would be to rename your login scripts (for instance .bashrc as .bashrc_save and/or .profile as .profile_bkp) so that your setup at login will be minimal and you will get the cleanest shell. For this to take into effect, you will need to exit and reconnect through ssh.
 
-## 4. Setting up DUNE software
-To set up your environment with DUNE, the command is:
+## 4.1 Setting up DUNE software - Scientific Linux 7 version
+
+See [SL7_to_Alma9][SL7_to_Alma9] for more information
+
+
+To set up your environment in SL7, the commands are:
+
+Log into a DUNE machine running Alma9
+
+Launch an SL7 container
+
 ~~~
+/cvmfs/oasis.opensciencegrid.org/mis/apptainer/current/bin/apptainer shell --shell=/bin/bash \
+-B /cvmfs,/exp,/nashome,/pnfs/dune,/opt,/run/user,/etc/hostname,/etc/hosts,/etc/krb5.conf --ipc --pid \
+/cvmfs/singularity.opensciencegrid.org/fermilab/fnal-dev-sl7:latest
+~~~
+{: .language-bash}
+
+You will then be in a container which looks like:
+
+~~~
+Apptainer>
+~~~
+{: .output}
+
+You can then set up DUNE's code 
+
+~~~
+export UPS_OVERRIDE="-H Linux64bit+3.10-2.17" # makes certain you get the right UPS
 source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 ~~~
 {: .language-bash}
+
 You should see in your terminal the following output:
 ~~~
 Setting up larsoft UPS area... /cvmfs/larsoft.opensciencegrid.org/products/
@@ -250,6 +277,53 @@ Setting up DUNE UPS area... /cvmfs/dune.opensciencegrid.org/products/dune/
 > Your terminal will execute the long command. This will work for your current session (if you disconnect, the alias won't exist anymore). You can store this in your (minimal) .bashrc or .profile if you want this alias to be available in all sessions. The alias will be defined but not executed. Only if you type the command `dune_setup` yourself.
 {: .solution}
 
+Try testing ROOT to make certain things are working
+
+### Caveats
+
+You cannot submit jobs from the Container - you need to open a separate window, not do the apptainer and submit your jobs from that window. 
+
+
+## 4.2 Setting up DUNE software - Alma9 version
+
+We are moving to the Alma9 version of unix.  Not all DUNE code has been ported yet but if you are doing basic analysis work, try it out. 
+
+Here is how you set up basic DUNE software on Alma 9
+
+login into a unix machine at FNAL or CERN
+
+~~~
+# get the larsoft version of the env
+source /cvmfs/larsoft.opensciencegrid.org/spack-packages/setup-env.sh 
+~~~
+{: .language-bash}
+
+~~~
+# get some basic things - 
+# use the command spack find to find packages you might want
+# If you just type spack load ... you may be presented with a choice and will need to choose. 
+#
+spack load root@6.28.12
+spack load cmake@3.27.7
+spack load gcc@12.2.0
+spack load fife-utils@3.7.0
+spack load metacat@4.0.0
+spack load rucio-clients@33.3.0
+spack load sam-web-client@3.4%gcc@12.2.0 
+
+# config for dune
+spack load r-m-dd-config@1.0 experiment=dune
+export SAM_EXPERIMENT=dune
+~~~
+{: .language-bash}
+
+Try testing ROOT to make certain things are working
+
+### Caveats
+
+We don't have a full ability to rebuild DUNE Software packages yet, but you can run the basic examples from Alma9
+
+
 ## 5. Exercise! (it's easy)
 This exercise will help organizers see if you reached this step or need help.
 
@@ -272,7 +346,7 @@ dune_setup
 
 2) Create working directories in the `dune/app` and `pnfs/dune` areas (these will be explained during the training):
 ~~~
-mkdir -p /dune/app/users/${USER}
+mkdir -p /exp/dune/app/users/${USER}
 mkdir -p /pnfs/dune/scratch/users/${USER}
 mkdir -p /pnfs/dune/persistent/users/${USER}
 ~~~
@@ -280,7 +354,7 @@ mkdir -p /pnfs/dune/persistent/users/${USER}
 
 3) Print the date and add the output to a file named `my_first_login.txt`:
 ~~~
-date >& /dune/app/users/${USER}/my_first_login.txt
+date >& /exp/dune/app/users/${USER}/my_first_login.txt
 ~~~
 {: .language-bash}
 4) With the above, we will check if you reach this point. However we want to tailor this tutorial to your preferences as much as possible. We will let you decide which animals you would like to see in future material, between: "puppy", "cat", "squirrel", "sloth", "unicorn pegasus llama" (or "prefer not to say" of course). Write your desired option on the second line of the file you just created above.
@@ -326,7 +400,7 @@ Your proxy is valid until Mon Jan 25 18:09:25 2021
 {: .output}
 Report this by appending the output of `voms-proxy-info` to your first login file:
 ~~~
-voms-proxy-info >> /dune/app/users/${USER}/my_first_login.txt
+voms-proxy-info >> /exp/dune/app/users/${USER}/my_first_login.txt
 ~~~
 {: .language-bash}
 
@@ -392,6 +466,7 @@ The [DUNE FAQ][dunefaq] on GitHub.
 
 {%include links.md%} 
 
+[SL7_to_Alma9]: https://wiki.dunescience.org/wiki/SL7_to_Alma9_conversion#SL7_to_Alma_9_conversion
 [indico-event-page]: https://indico.fnal.gov/event/59762/
 [indico-event-requirements]: https://indico.fnal.gov/event/59762/page/3229-requirements
 [dune-collaboration]: http://collaboration.dunescience.org/
