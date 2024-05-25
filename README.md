@@ -2,7 +2,7 @@
 Getting Started in HEP computing
 =========================================
 
-This repository holds the source code of the webpage that is rendered [here](https://hschellman/training-docs). 
+This repository holds the source code of the webpage that is rendered [here](https://hschellman.github.io/training-docs). 
 
 This training module is part of an initiative of the [Western Advanced Training for Computational High-Energy Physics Project ](https://watchep.org/).
 
