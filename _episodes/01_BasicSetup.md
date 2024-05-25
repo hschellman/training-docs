@@ -77,7 +77,7 @@ xterm &
 
 ### 4. Install Conda
 
-See [Next lesson]({{ site.baseurl }}/_episodes/02_InstallConda.md)
+See [Next lesson]({{ site.baseurl }}/02_InstallConda.md)
 
 
 

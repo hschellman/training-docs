@@ -26,7 +26,14 @@ You need a computer with at least 10GB of free space
 > ## Note
 > Computers are mean, if you run into problems, that is normal. Ask for help.
 > Use a search engine to see if solutions are out there. 
-> Ask us!  Please tell us what kind of computer you are
+> Ask us!  Please tell us what kind of computer you are using
+
+## Preparation
+
+- Do lesson 1 - [Installing basic packages]({{ site.baseurl }}/01_BasicSetup.md)
+- If that works, proceed to lesson 2 - [Install Conda and ROOT]({{ site.baseurl }}/02_InstallConda.md)
+
+At that point you should have a set of powerful coding tools. 
 
 
 > ## Issues

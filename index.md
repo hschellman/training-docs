@@ -44,7 +44,7 @@ This tutorial provides resources for the basics of High Energy Physics Computing
 > to make sure you are good to go.
 {: .callout}
 
-
+<!-- >
 <h2 id="schedule">Schedule by Day</h2>
 
 The official schedule for this event is listed on the [Indico site (59762)](https://indico.fnal.gov/event/59762/timetable/#20230524).
@@ -54,5 +54,6 @@ The official schedule for this event is listed on the [Indico site (59762)](http
 <!--<center><img  alt="" src="fig/Schedule_computing_training_202105.png"/></center>-->
 
 <!-- An [asynchronous session]({{site.baseurl}}/asynchronous/) is designed as later day acivities for the first two days of the workshop.-->
+
 
 {% include links.md %}
