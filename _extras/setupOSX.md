@@ -73,27 +73,11 @@ Try testing ROOT to make certain things are working
 
 
 ### Useful Links
-
+[HSF Training Center][HSF Training Center]
    
 
 {%include links.md%} 
 
 [HSF Training Center]: https://hsf-training.org/training-center/   
-[SL7_to_Alma9]: https://wiki.dunescience.org/wiki/SL7_to_Alma9_conversion#SL7_to_Alma_9_conversion
-[indico-event-page]: https://indico.fnal.gov/event/59762/
-[indico-event-requirements]: https://indico.fnal.gov/event/59762/page/3229-requirements
-[dune-collaboration]: http://collaboration.dunescience.org/
-[computing-account-request-form]: https://fermi.servicenowservices.com/com.glideapp.servicecatalog_cat_item_view.do?v=1&sysparm_id=d361073881218500bea3634b5c987c4c&sysparm_link_parent=a5a8218af15014008638c2db58a72314&sysparm_catalog=e0d08b13c3330100c8b837659bba8fb4&sysparm_catalog_view=catalog_Service_Catalog 
-[get-connected-user-access]: https://get-connected.fnal.gov/users/access/ 
-[kerberos-password]: https://fermi.servicenowservices.com/kb_view.do?sysparm_article=KB0011294 
-[kerberos-template]: https://authentication.fnal.gov/krb5conf/ 
-[kerberos-config]: https://fermi.servicenowservices.com/kb_view.do?sysparm_article=KB0011315 
-[dunegpvm-status]: https://fifemon.fnal.gov/monitor/d/000000004/experiment-overview?orgId=1&var-experiment=dune&from=now-6h&to=now-5m&panelId=30&fullscreen
-[dunegpvm-vnc]: https://wiki.dunescience.org/wiki/DUNE_Computing/Using_VNC_Connections_on_the_dunegpvms
-[proxy-info]: https://cdcvs.fnal.gov/redmine/projects/sbndcode/wiki/Get_a_certificate_proxy 
-[dune-setup-jan2021]: https://wiki.dunescience.org/wiki/DUNE_Computing/Setup_Jan2021
-[dune-training-may2021]: https://dune.github.io/computing-training-202105/
-[dune-wiki-interactive-resources]: https://wiki.dunescience.org/wiki/DUNE_Computing/DUNE_Interactive_Computing_Resources
-[anaconda-faq-kinit]: https://github.com/DUNE/FAQ/issues/22
-[dunefaq]: https://github.com/DUNE/FAQ
+
 
