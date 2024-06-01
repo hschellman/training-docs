@@ -81,7 +81,8 @@ xterm &
 
 #### Windows
 
-See the information about [`putty` and `xming`]({{ site.baseurl }}/putty.md)
+See the information about [putty and xming]({{ site.baseurl }}/putty.md).
+
 
 ### 4. Install Conda
 
