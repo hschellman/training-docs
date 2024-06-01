@@ -12,13 +12,30 @@ keypoints:
 - It is also something almost all people who get paid to program are expected to know well
 ---
 
-## 1. Back up your machine
+## 0. Back up your machine
 
 We are going to be messing with your operating system at some level so it is extremely wise to do a complete backup of your machine to an external drive right now. 
 
-Also turn off automatic updates.  Operating system updates can mess with your setup.  Generally, back up before doing updates so you can revert if necessary. 
+Also turn off automatic updates.  Operating system updates can mess with your setup.  Generally, back up before doing updates so you can revert if necessary.
 
-## 2. Learn how to do a terminal session and use the Unix Shell
+## 1. Open a unix terminal window
+
+First figure out how to open a terminal on your system.  The Carpentries Shell Training has a [section that explains this](https://swcarpentry.github.io/shell-novice/#open-a-new-shell)
+
+
+<!---
+On Linux use xterm, on OSX go to Utilities and start a Terminal. 
+
+On Windows it's a bit more complicated as the underlying operating system is not a unix variant.
+
+> We suggest using the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about) (WSL). That page has download instructions. 
+
+-->
+
+## 2. Learn how to use the Unix Shell
+
+First figure out [how to open a terminal on your system]
+(https://swcarpentry.github.io/shell-novice/#open-a-new-shell)
 
 There is a nice tutorial from the Carpentries at: [Unix Shell Basics][Unix Shell Basics].
 
@@ -81,7 +98,7 @@ xterm &
 
 #### Windows
 
-See the information about [putty and xming]({{ site.baseurl }}/putty.md).
+See the information about [putty and xming]({{ site.baseurl }}/putty.html).
 
 
 ### 4. Install Conda
@@ -113,11 +130,12 @@ See [Next lesson]({{ site.baseurl }}/02_InstallConda.md)
 
 {%include links.md%} 
 
-[HSF Training Center]: https://hsf-training.org/training-center/   
+[HSF Training Center]: https://hsf-training.org/training-center/  
+[Windows Subsystem for Linux]: https://learn.microsoft.com/en-us/windows/wsl/about
 [Unix Shell Basics]: https://swcarpentry.github.io/shell-novice/
 [Visual Studio Code]: https://code.visualstudio.com
 [Visual Studio]:https://visualstudio.microsoft.com/vs/
-[GNU gcc]: https://gcc.gnu.org]
+[GNU gcc]: https://gcc.gnu.org
 [App Store]: https://www.apple.com/app-store/
 [Xcode]: https://developer.apple.com/xcode/
 [XQuartz]: https://www.xquartz.org
