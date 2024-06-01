@@ -26,7 +26,8 @@ You need a computer with at least 10GB of free space
 > ## Note
 > Computers are mean, if you run into problems, that is normal. Ask for help.
 > Use a search engine to see if solutions are out there. 
-> Ask us!  Please tell us what kind of computer you are using
+> Ask us!  Please tell us what kind of computer you are using.
+{: .discussion}
 
 ## Preparation
 
@@ -43,6 +44,8 @@ At that point you should have a set of powerful coding tools.
 ### Useful Links
 
 [HSF Training Center][HSF Training Center]
+
+[Report Issues Here]({{ repo_url }}/issues)
    
 {%include links.md%} 
 
