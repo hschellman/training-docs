@@ -1,7 +1,7 @@
 ---
 title: Basic Setup - tested on OSX
 teaching: 30
-exercises: 0
+exercises: 30
 questions:  
 - How do I get started in scientific programing
 objectives:  
@@ -21,17 +21,18 @@ Also turn off automatic updates.  Operating system updates can mess with your se
 ## 2. Learn how to do a terminal session and use the Unix Shell
 
 There is a nice tutorial from the Carpentries at: [Unix Shell Basics][Unix Shell Basics].
+
 It tells you how to start a terminal session in Windows, Mac OSX and Unix systems. 
 
-Please do the shell tutorial to learn about the basic command line. 
+Please do the [unix shell tutorial][Unix Shell Basics] to learn about the basic command line. 
 
 ## 3. Install some basic tools
 
-You are going to need to add some package to your local machine
+You are going to need to add some packages to your local machine
 
 ### 1. Install Git
 
-Github is a repository for shared code.  It is also a good place to back up your code and share with others.  You will need to set up an account if you want to store things there. 
+Github is a repository for shared code.  It is also a good place to back up your code and share with others.  You will need to set up an account if you want to store things there. For now we are just going to use it to grab other people's software so you don't need to set up an account yet. 
 
 Start out by doing the setup/install section of the tutorial at [https://swcarpentry.github.io/git-novice/](https://swcarpentry.github.io/git-novice/) to get started.  You can come back and do the full tutorial later. 
 
@@ -40,16 +41,19 @@ Start out by doing the setup/install section of the tutorial at [https://swcarpe
 Although you will mainly be using python to code to begin with, most HEP code is actually C++ and it is good to have access to a C++ compiler.  Bonus is that you normally get a good editor as well. 
 
 #### OSX
-On OSX, you should install [Xcode][Xcode] from the [App store](https://www.apple.com/app-store/).  It will take a lot of disk space. When you try to use it it will ask you to install command line tools.  Do so. 
+Compiler/editor: On OSX, you should install [Xcode][Xcode] from the [App store](https://www.apple.com/app-store/).  It will take a lot of disk space. When you try to use it it will ask you to install command line tools.  Do so. 
 
-Even though Xcode is what you use to compile and has an editor, many people prefer to use the [Visual Studio Code](https://code.visualstudio.com) application from Microsoft for editing/testing code. 
+Compiler/editor: Even though Xcode is what you use to compile and has an editor, many people prefer to use the [Visual Studio Code](https://code.visualstudio.com) application from Microsoft for editing/testing code. 
+
+You can also use vim or emacs if you are old school. 
 
 #### Unix
-Your compiler will be gcc 
-Heck - just use vim. Or emacs, or [VSCode][Visual Studio Code].
+- Compiler: your compiler will be gcc 
+
+- Editor: Heck - just use vim. Or emacs, or [VSCode][Visual Studio Code].
 
 #### Windows 
-Likely you should load up the full Visual Studio as it has a nice C++ compiler
+Likely you should load up the full [Visual Studio][Visual Studio] as it has a nice C++ compiler
 
 ### 3. Install an x-windows emulator
 
@@ -74,6 +78,10 @@ test by doing
 xterm &
 ~~~
 {: .language-bash}
+
+#### Windows
+
+See the information about [`putty` and `xming`]({{ site.baseurl }}/putty.md)
 
 ### 4. Install Conda
 

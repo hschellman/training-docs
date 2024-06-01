@@ -69,7 +69,7 @@ conda create -n my_root_env root -c conda-forge
 
 This will take a while. In the end you have an environment which contains root and a lot of other useful things
 
-You can repeat step 1 to make different conda enviroments.
+You can repeat step 1 to make different conda enviroments which you can use for different projects!
 
 ## Try out your new environment
 
@@ -83,10 +83,12 @@ conda activate my_root_env
 First time you use your environment you can do 
 
 ~~~
-conda config --add --env channels conda-forge # only
+conda config --add --env channels conda-forge 
 ~~~
 
 the config command tells conda to use conda-forge as a default.   You should now have a conda environment with root in it. 
+
+You can use conda to install other code (for example I have installed, ruby, jupyterlab and jsoncpp for various projects).
 
 ## Testing
 

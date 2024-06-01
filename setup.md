@@ -1,7 +1,7 @@
 ---
 title: Mission Setup
-teaching: 60
-exercises: 0
+teaching: 40
+exercises: 30
 questions:
 - How do I prepare for computing tutorials?
 objectives:  
