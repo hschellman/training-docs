@@ -120,6 +120,8 @@ See [Next lesson]({{ site.baseurl }}/02_InstallConda.md)
 
 [Unix Shell Basics][Unix Shell Basics]   
 
+[Git][Git]
+
 [Visual Studio Code][Visual Studio Code]
 
 [Visual Studio][Visual Studio]
@@ -128,15 +130,21 @@ See [Next lesson]({{ site.baseurl }}/02_InstallConda.md)
 
 [Xcode][Xcode]
 
+[XQuartz][XQuartz]
+
+[Windows Subsystem for Linux][Windows Subsystem for Linux]
+
 {%include links.md%} 
 
 [HSF Training Center]: https://hsf-training.org/training-center/  
 [Windows Subsystem for Linux]: https://learn.microsoft.com/en-us/windows/wsl/about
 [Unix Shell Basics]: https://swcarpentry.github.io/shell-novice/
+[Git]: https://swcarpentry.github.io/git-novice
 [Visual Studio Code]: https://code.visualstudio.com
 [Visual Studio]:https://visualstudio.microsoft.com/vs/
 [GNU gcc]: https://gcc.gnu.org
 [App Store]: https://www.apple.com/app-store/
 [Xcode]: https://developer.apple.com/xcode/
 [XQuartz]: https://www.xquartz.org
+
 

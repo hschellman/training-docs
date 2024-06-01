@@ -44,8 +44,6 @@ At that point you should have a set of powerful coding tools.
 ### Useful Links
 
 [HSF Training Center][HSF Training Center]
-
-[Report Issues Here]({{ repo_url }}/issues)
    
 {%include links.md%} 
 
